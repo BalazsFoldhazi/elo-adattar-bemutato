@@ -123,6 +123,11 @@ h3{font-size:20px;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
 .rovat .cetli .kat{display:flex}
 .rovat[data-rovat="nincs"] .cetli{width:210px;background:var(--paper);color:var(--paperInk);box-shadow:0 10px 24px rgba(0,0,0,.38);border-color:transparent;transform:rotate(var(--r))}
 .rovat[data-rovat="nincs"] .cetli .kat{display:none}
+/* A változás ott történjen, ahol a szem van. Telefonon a tábla alja
+   képernyőkkel lejjebb van: ha a gazdátlan kupac és az új rovatok alul
+   jelennek meg, a váltás észrevétlen marad. Ezért kerülnek FELÜLRE. */
+.tabla[data-allapot="crm"] .rovat[data-rovat="nincs"]{order:-1;margin-top:0;margin-bottom:6px}
+.tabla[data-allapot="cel"] .rovat:not([data-crm]){order:-1}
 @media(max-width:640px){
   .tabla{padding:12px}
   .tabla-kaosz{height:1200px}
@@ -493,6 +498,8 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:rgba(251,246,236,.5
       </div>
     </div>
 
+    <p class="tabla-felirat" id="tablaFelirat" aria-live="polite" style="margin-top:14px"></p>
+
     <div class="tabla" id="tabla" data-allapot="ma">
       <div class="tabla-kaosz">
         <div class="cetli" data-kat="teendo" style="--k:var(--k-teendo);--x:2%;--y:3%;--mx:1%;--my:0.5%;--r:-6deg"><span class="forras">Füzet</span>Kovács Béla — visszahívni kedden?? facélia<span class="kat">Teendő</span></div>
@@ -529,7 +536,6 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:rgba(251,246,236,.5
       </div>
     </div>
 
-    <p class="tabla-felirat" id="tablaFelirat" aria-live="polite" style="margin-top:16px"></p>
 
     <div class="grid g3" style="margin-top:34px">
       <div class="card baj">
@@ -1152,6 +1158,10 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:rgba(251,246,236,.5
       void tabla.offsetHeight;
 
       requestAnimationFrame(function () {
+        // Ha a tábla közepén állva váltott, hozzuk vissza a tetejére:
+        // az átrendeződés most ott történik.
+        var fr = felirat.getBoundingClientRect().top;
+        if (fr < 72) window.scrollBy({ top: fr - 84, behavior: 'smooth' });
         tabla.style.transition = 'height .75s cubic-bezier(.2,.8,.2,1)';
         tabla.style.height = h1 + 'px';
         cetlik.forEach(function (c, i) {
