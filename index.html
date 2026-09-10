@@ -1237,8 +1237,8 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:rgba(251,246,236,.5
     var FAZIS = [
       { ig: 2, cim: 'Minden mondat megmarad', szoveg: 'A régi rekeszek — partner, ajánlat, teendő — azonnal töltődnek. Ami még nem fér beléjük, szabad szövegként megmarad, nem vész el.', f: '1. hónap' },
       { ig: 4.6, cim: 'Minták rajzolódnak ki', szoveg: 'A szabad szövegek csoportosulni kezdenek: ugyanarról esik szó újra meg újra — szárító, audit, termelő.', f: '3. hónap' },
-      { ig: 9, cim: 'Új rekesz születik', szoveg: 'A gép javasolja: legyen Labor, Üzem, Termelő rekesz. Jóváhagyod — és a korábbi mondatok is átkerülnek beléjük.', f: '6. hónap' },
-      { ig: 99, cim: 'A rekeszek összekapcsolódnak', szoveg: 'A tétel lesz a közös nevező: a termelő, a labor és a vevő ugyanarra mutat. Egy kérdésre minden év válaszol.', f: '12. hónap' }
+      { ig: 9, cim: 'Értékes új információ', szoveg: 'A szétszórt mondatokból új rekesz lesz: Labor, Üzem, Termelő. Jóváhagyod — és ami eddig csak elhangzott, kereshető, használható tudás lesz.', f: '6. hónap' },
+      { ig: 99, cim: 'Előkerül, ami eddig elveszett', szoveg: 'A tétel köti össze a termelőt, a labort és a vevőt. Ha gyenge egy labor-eredmény, rögtön látszik, kitől jött és kihez ment — nem hónapokkal később, egy panaszból.', f: '12. hónap' }
     ];
 
     var t = 12, w = 0, h = 0, dpr = 1;
@@ -1359,9 +1359,17 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:rgba(251,246,236,.5
         ctx.fillStyle = '#fbf6ec';
         ctx.fillText(hub.nev, hp[0], ty);
         if (uj) {
+          // Az új rekesz értékes új információt hoz; a tétel az eddig
+          // elveszett kapcsolatot adja vissza a termelő, a labor és a vevő között.
+          var felirat = hub.osszekoto ? 'EDDIG ELVESZETT INFORMÁCIÓ' : 'ÉRTÉKES ÚJ INFORMÁCIÓ';
           ctx.font = '700 ' + (w < 560 ? 9 : 10) + 'px "JetBrains Mono", monospace';
+          var fw = ctx.measureText(felirat).width;
+          var fx = Math.max(fw / 2 + 5, Math.min(w - fw / 2 - 5, hp[0]));
+          var fy = ty > hp[1] ? ty + (w < 560 ? 15 : 18) : ty - (w < 560 ? 15 : 17);
+          ctx.fillStyle = 'rgba(7,26,16,.82)';
+          ctx.fillRect(fx - fw / 2 - 5, fy - 2, fw + 10, (w < 560 ? 13 : 15));
           ctx.fillStyle = '#eda31e';
-          ctx.fillText('ÚJ REKESZ', hp[0], ty + (w < 560 ? 15 : 18));
+          ctx.fillText(felirat, fx, fy);
         }
       });
       ctx.globalAlpha = 1;
