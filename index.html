@@ -1,0 +1,1449 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lajtamag Élő Adattár</title>
+<meta name="description" content="Hogyan lesz a szétszórt cetlikből egy közös adattár, amibe a cég minden vezetője AI-nak diktál. Vizuális bemutató a Lajtamag vezetői rendszerének tervéről.">
+<meta property="og:title" content="Élő Adattár — elmondod, és a helyére kerül">
+<meta property="og:description" content="Hogyan lesz a szétszórt cetlikből egy közös adattár, amibe a cég minden vezetője AI-nak diktál. Vizuális bemutató a Lajtamag vezetői rendszerének tervéről.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#071a10">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%BE%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#071a10; --bg2:#0a2315; --panel:rgba(251,246,236,.055); --panel2:rgba(251,246,236,.1);
+  --line:rgba(251,246,236,.13); --text:#fbf6ec; --muted:rgba(251,246,236,.68); --dim:rgba(251,246,236,.44);
+  --wheat:#eda31e; --green:#1f9e52; --greenL:#6fcf97; --paper:#efe4ca; --paperInk:#2b231a;
+  --k-partner:#6fcf97; --k-terep:#5fc4c9; --k-teendo:#7fb3ec; --k-termelo:#b39cf0; --k-eladas:#e392c4;
+  --k-labor:#f08a72; --k-ajanlat:#eda31e; --k-uzem:#d9cf8a; --k-nemes:#9fd46b; --k-kulfold:#6f8ff7; --k-marketing:#f06ba8; --k-szabad:rgba(251,246,236,.5);
+  color-scheme:dark;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:16px}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit}
+.wrap{width:min(1180px,92vw);margin:0 auto}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+:focus-visible{outline:2px solid var(--wheat);outline-offset:3px;border-radius:6px}
+
+/* ---------------------------------------------------------------- fejléc */
+header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(7,26,16,.84);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0;gap:16px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:18px;letter-spacing:-.01em;white-space:nowrap}
+.mark{width:34px;height:34px;border-radius:10px;background:var(--green);display:grid;place-items:center}
+.mark svg{width:20px;height:20px}
+.navlinks{display:flex;gap:24px;font-size:15px;color:var(--muted);font-weight:500}
+.navlinks a{text-decoration:none}
+.navlinks a:hover{color:var(--text)}
+@media(max-width:760px){.navlinks{display:none}}
+
+/* ------------------------------------------------------------------ hero */
+.hero{padding:70px 0 40px;background:radial-gradient(900px 600px at 12% -10%,#14472a 0%,transparent 60%)}
+.pill{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--wheat);
+  border:1px solid rgba(237,163,30,.4);border-radius:100px;padding:8px 16px;margin-bottom:24px}
+h1{font-size:clamp(40px,6.6vw,78px);line-height:1.02;letter-spacing:-.035em;font-weight:700;max-width:15ch;text-wrap:balance}
+h1 em,h2 em{font-style:normal;color:var(--wheat)}
+.lead{font-size:clamp(17px,2vw,21px);line-height:1.5;color:var(--muted);margin-top:22px;max-width:56ch}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.btn{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:16px;padding:15px 26px;border-radius:100px;
+  border:1px solid transparent;transition:background .18s,border-color .18s;text-decoration:none;cursor:pointer;background:none}
+.btn-p{background:var(--wheat);color:#0b2b1a}
+.btn-p:hover{background:#f5b23c}
+.btn-s{border-color:var(--line)}
+.btn-s:hover{background:var(--panel)}
+
+.harmas{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:48px}
+.harmas figure{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:14px 14px 12px;display:flex;flex-direction:column;gap:10px}
+.harmas svg{width:100%;height:auto;display:block}
+.harmas figcaption{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:14px;color:var(--muted)}
+.harmas figcaption b{color:var(--text);font-weight:600;font-size:15px}
+.harmas .nyil{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:.1em}
+@media(max-width:700px){.harmas{grid-template-columns:1fr}}
+
+/* ------------------------------------------------------------ szakaszok */
+section{padding:76px 0}
+.sechead{max-width:68ch;margin-bottom:30px}
+.kicker{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--wheat);margin-bottom:14px}
+.kicker .szam{font-family:'JetBrains Mono',monospace;font-size:13px;width:28px;height:28px;border-radius:50%;border:1px solid rgba(237,163,30,.5);display:grid;place-items:center;letter-spacing:0}
+h2{font-size:clamp(30px,4.3vw,50px);line-height:1.06;letter-spacing:-.03em;font-weight:700;text-wrap:balance}
+h3{font-size:20px;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.sub{font-size:17px;line-height:1.6;color:var(--muted);margin-top:14px}
+.valaszto{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+
+.jelveny{display:inline-flex;align-items:center;font:700 10px/1 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;
+  padding:5px 7px;border-radius:5px;border:1px solid;white-space:nowrap}
+.jelveny.ma{color:var(--greenL);border-color:rgba(111,207,151,.45)}
+.jelveny.terv{color:var(--wheat);border-color:rgba(237,163,30,.45)}
+
+/* ---------------------------------------------------------- a cetli-tábla */
+.allapotok{display:inline-flex;flex-wrap:wrap;gap:6px;padding:6px;border:1px solid var(--line);border-radius:100px;background:var(--panel)}
+.allapotok button{border:0;background:none;cursor:pointer;padding:10px 18px;border-radius:100px;font-weight:600;font-size:15px;color:var(--muted);
+  display:inline-flex;align-items:center;gap:8px;transition:background .2s,color .2s}
+.allapotok button .mono{font-size:11px;opacity:.7}
+.allapotok button[aria-pressed="true"]{background:var(--wheat);color:#0b2b1a}
+.tabla-sor{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
+.tabla-felirat{font-size:17px;line-height:1.5;color:var(--muted);max-width:62ch;min-height:3em}
+.tabla-felirat b{color:var(--text)}
+
+.tabla{position:relative;margin-top:18px;border:1px solid var(--line);border-radius:18px;padding:18px;overflow:hidden;
+  background:radial-gradient(700px 420px at 18% 0%,rgba(237,163,30,.07),transparent 62%),var(--bg2)}
+.tabla-kaosz{position:relative;height:700px}
+.tabla-rend{display:none;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px 14px;align-items:start}
+.tabla[data-allapot="crm"] .tabla-kaosz,.tabla[data-allapot="cel"] .tabla-kaosz{display:none}
+.tabla[data-allapot="crm"] .tabla-rend,.tabla[data-allapot="cel"] .tabla-rend{display:grid}
+
+.rovat{display:none;flex-direction:column;gap:8px;min-width:0}
+.tabla[data-allapot="crm"] .rovat[data-crm],.tabla[data-allapot="cel"] .rovat[data-cel]{display:flex}
+.rovat[data-rovat="nincs"]{grid-column:1/-1;margin-top:6px;padding:16px;border:1px dashed rgba(240,138,114,.45);border-radius:14px;background:rgba(240,138,114,.04)}
+.rovat-fej{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.rovat[data-rovat="nincs"] .rovat-fej{border-bottom:0;padding-bottom:2px;color:var(--k-labor)}
+.rovat-fej .pont{width:10px;height:10px;border-radius:50%;background:var(--k);flex:none}
+.rovat-fej .db{margin-left:auto;font:500 12px 'JetBrains Mono',monospace;color:var(--dim)}
+.rovat-fej .jelveny{display:none}
+.tabla[data-allapot="cel"] .rovat-fej .jelveny{display:inline-flex}
+.rovat-tartalom{display:flex;flex-direction:column;gap:8px}
+.rovat[data-rovat="nincs"] .rovat-tartalom{flex-direction:row;flex-wrap:wrap;gap:14px}
+
+.cetli{width:22%;min-width:150px;padding:11px 12px 12px;border-radius:7px;background:var(--paper);color:var(--paperInk);
+  box-shadow:0 10px 24px rgba(0,0,0,.38);font-size:14.5px;line-height:1.35;display:flex;flex-direction:column;gap:6px;
+  border:1px solid transparent;transition:background-color .55s,color .55s,box-shadow .55s,border-color .55s}
+.cetli .forras{font:700 10px/1 'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;opacity:.55}
+.cetli .kat{display:none;align-items:center;gap:6px;font:700 10px/1 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--k)}
+.cetli .kat::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--k)}
+.tabla-kaosz .cetli{position:absolute;left:var(--x);top:var(--y);transform:rotate(var(--r))}
+.rovat .cetli{width:auto;min-width:0;background:var(--panel2);color:var(--text);box-shadow:none;border-color:var(--line)}
+.rovat .cetli .forras{opacity:.4}
+.rovat .cetli .kat{display:flex}
+.rovat[data-rovat="nincs"] .cetli{width:210px;background:var(--paper);color:var(--paperInk);box-shadow:0 10px 24px rgba(0,0,0,.38);border-color:transparent;transform:rotate(var(--r))}
+.rovat[data-rovat="nincs"] .cetli .kat{display:none}
+@media(max-width:640px){
+  .tabla{padding:12px}
+  .tabla-kaosz{height:1200px}
+  .tabla-kaosz .cetli{width:46%;min-width:0;left:var(--mx2);top:var(--my2)}
+  .tabla-kaosz .cetli:nth-child(1){--mx2:1%;--my2:0.5%}
+  .tabla-kaosz .cetli:nth-child(2){--mx2:51%;--my2:3%}
+  .tabla-kaosz .cetli:nth-child(3){--mx2:4%;--my2:12.7%}
+  .tabla-kaosz .cetli:nth-child(4){--mx2:49%;--my2:15.2%}
+  .tabla-kaosz .cetli:nth-child(5){--mx2:1%;--my2:24.9%}
+  .tabla-kaosz .cetli:nth-child(6){--mx2:51%;--my2:27.4%}
+  .tabla-kaosz .cetli:nth-child(7){--mx2:4%;--my2:37.1%}
+  .tabla-kaosz .cetli:nth-child(8){--mx2:49%;--my2:39.6%}
+  .tabla-kaosz .cetli:nth-child(9){--mx2:1%;--my2:49.3%}
+  .tabla-kaosz .cetli:nth-child(10){--mx2:51%;--my2:51.8%}
+  .tabla-kaosz .cetli:nth-child(11){--mx2:4%;--my2:61.5%}
+  .tabla-kaosz .cetli:nth-child(12){--mx2:49%;--my2:64%}
+  .tabla-kaosz .cetli:nth-child(13){--mx2:1%;--my2:73.7%}
+  .tabla-kaosz .cetli:nth-child(14){--mx2:51%;--my2:76.2%}
+  .tabla-kaosz .cetli:nth-child(15){--mx2:4%;--my2:85.9%}
+  .tabla-kaosz .cetli:nth-child(16){--mx2:49%;--my2:88.4%}
+  .rovat[data-rovat="nincs"] .cetli{width:calc(50% - 7px)}
+  .tabla-rend{grid-template-columns:1fr 1fr;gap:12px 10px}
+  .cetli{font-size:13.5px}
+}
+
+/* ------------------------------------------------------------ kártyák */
+.grid{display:grid;gap:18px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:900px){.g3,.g2{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:10px}
+.card p{font-size:15.5px;line-height:1.6;color:var(--muted)}
+.card .nagy{font-size:44px;font-weight:700;letter-spacing:-.03em;line-height:1;color:var(--text)}
+.card .nagy small{font-size:16px;font-weight:500;color:var(--muted);letter-spacing:0;margin-left:6px}
+
+.baj{position:relative;padding-top:58px}
+.baj svg{position:absolute;top:22px;left:24px;width:26px;height:26px}
+
+/* ---------------------------------------------------------- statisztika */
+.statsor{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:6px 0 30px}
+.stat{padding:22px 20px;display:flex;flex-direction:column;gap:6px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat b{font-size:clamp(30px,3.6vw,42px);font-weight:700;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:14px;color:var(--muted);line-height:1.4}
+@media(max-width:760px){.statsor{grid-template-columns:1fr 1fr}.stat:nth-child(2){border-right:0}.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+
+.kepek{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:760px){.kepek{grid-template-columns:1fr}}
+.shot{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#0c2416;display:flex;flex-direction:column}
+.shot img{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top center}
+.shot figcaption{padding:12px 14px;font-size:14px;color:var(--muted);line-height:1.45}
+.shot figcaption b{display:block;color:var(--text);font-size:15px;font-weight:600;margin-bottom:2px}
+
+/* ------------------------------------------------------------- sínek */
+.sinek{display:flex;flex-direction:column;gap:18px;margin-top:34px;padding:24px;border:1px solid var(--line);border-radius:18px;background:var(--panel)}
+.sin{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center}
+.sin-cim{display:flex;flex-direction:column;gap:6px;font-weight:600}
+.sin-cim .mono{font-size:11px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+.lepesek{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.lepesek span{padding:9px 13px;border-radius:9px;background:var(--panel2);border:1px solid var(--line);font-size:14px;white-space:nowrap}
+.lepesek i{font-style:normal;color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:12px}
+.sin.gyors .lepesek span{background:rgba(237,163,30,.14);border-color:rgba(237,163,30,.45);color:var(--text);font-weight:600}
+@media(max-width:640px){.sin{grid-template-columns:1fr;gap:10px}}
+
+.kiemel{margin-top:26px;padding:22px 24px;border-radius:16px;border:1px solid rgba(237,163,30,.3);background:linear-gradient(135deg,rgba(237,163,30,.1),rgba(237,163,30,.02));
+  font-size:19px;line-height:1.5}
+.kiemel b{color:var(--wheat)}
+
+/* ---------------------------------------------------- egy mondat útja */
+.mondat{margin-top:8px;border:1px solid var(--line);border-radius:20px;background:var(--bg2);padding:22px}
+.mondat-fej{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.pontok{display:flex;gap:6px;flex-wrap:wrap}
+.lepes-pont{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);padding:7px 11px;border-radius:100px;border:1px solid var(--line);transition:.3s}
+.lepes-pont .mono{font-size:11px}
+.lepes-pont.aktiv{color:var(--text);border-color:rgba(237,163,30,.55);background:rgba(237,163,30,.1)}
+.mondat-test{display:grid;grid-template-columns:1.05fr 1fr;gap:22px;align-items:start}
+@media(max-width:860px){.mondat-test{grid-template-columns:1fr}}
+
+.hangpanel{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:18px;display:flex;flex-direction:column;gap:16px}
+.hullam{display:flex;align-items:center;gap:3px;height:56px}
+.hullam i{flex:1;background:var(--wheat);border-radius:3px;height:var(--h);opacity:.85;transform-origin:center}
+.mondat[data-lepes="1"] .hullam i{animation:lueg .9s ease-in-out infinite;animation-delay:var(--d)}
+@keyframes lueg{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
+.hangpanel .allapotsor{display:flex;justify-content:space-between;gap:10px;font:500 12px 'JetBrains Mono',monospace;color:var(--dim)}
+.atirat{font-size:19px;line-height:1.65;transition:opacity .5s}
+.mondat[data-lepes="1"] .atirat{opacity:.12}
+.atirat mark{background:none;color:inherit;border-radius:4px;padding:1px 2px;transition:background .5s,box-shadow .5s}
+.mondat[data-lepes="3"] .atirat mark,.mondat[data-lepes="4"] .atirat mark{background:color-mix(in srgb,var(--k) 22%,transparent);box-shadow:inset 0 -2px 0 var(--k)}
+
+.rekeszek{display:flex;flex-direction:column;gap:10px}
+.rekesz{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:13px 14px;border-radius:13px;
+  border:1px solid var(--line);background:var(--panel);transition:opacity .5s,transform .5s,border-color .5s}
+.mondat[data-lepes="1"] .rekesz,.mondat[data-lepes="2"] .rekesz,.mondat[data-lepes="3"] .rekesz{opacity:.28;transform:translateX(10px);border-style:dashed}
+.rekesz .ikon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,var(--k) 18%,transparent);color:var(--k)}
+.rekesz .ikon svg{width:18px;height:18px}
+.rekesz .nev{font:700 10px/1 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--k)}
+.rekesz .ertek{font-size:15.5px;font-weight:500;margin-top:5px;line-height:1.35}
+.jovahagy{display:flex;align-items:center;gap:10px;margin-top:4px;padding:12px 14px;border-radius:12px;background:rgba(111,207,151,.1);
+  border:1px solid rgba(111,207,151,.35);font-size:15px;transition:opacity .5s}
+.mondat:not([data-lepes="4"]) .jovahagy{opacity:.2}
+.jovahagy svg{width:20px;height:20px;color:var(--greenL);flex:none}
+
+/* ------------------------------------------------------- az élő háló */
+.halo-doboz{margin-top:8px;border:1px solid var(--line);border-radius:20px;background:var(--bg2);overflow:hidden}
+.halo-fej{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.honapok{display:flex;flex-wrap:wrap;gap:6px}
+.honapok button{border:1px solid var(--line);background:none;border-radius:100px;padding:8px 14px;cursor:pointer;font-size:14px;color:var(--muted)}
+.honapok button[aria-pressed="true"]{background:var(--wheat);color:#0b2b1a;border-color:var(--wheat);font-weight:600}
+.halo-test{display:grid;grid-template-columns:1fr 290px}
+@media(max-width:860px){.halo-test{grid-template-columns:1fr}}
+.vaszon{position:relative;min-width:0}
+.vaszon canvas{display:block;width:100%}
+.halo-oldal{border-left:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:16px}
+@media(max-width:860px){.halo-oldal{border-left:0;border-top:1px solid var(--line)}}
+.halo-oldal .fazis{font:700 11px/1 'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--wheat)}
+.halo-oldal h3{font-size:21px}
+.halo-oldal p{font-size:15px;line-height:1.55;color:var(--muted)}
+.szamlalok{display:grid;grid-template-columns:1fr;gap:8px;margin-top:auto}
+.szamlalo{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px;color:var(--muted);padding:9px 11px;border:1px solid var(--line);border-radius:10px}
+.szamlalo b{font:700 16px 'JetBrains Mono',monospace;color:var(--text);font-variant-numeric:tabular-nums}
+.szamlalo .p{width:9px;height:9px;border-radius:50%;background:var(--k);display:inline-block;margin-right:8px}
+.halo-lab{padding:10px 18px;border-top:1px solid var(--line);font-size:13px;color:var(--dim)}
+
+/* ------------------------------------------------------- kérdezz rá */
+.kerdes{border:1px solid var(--line);border-radius:20px;background:var(--panel);padding:24px;display:flex;flex-direction:column;gap:18px}
+.kerdes-sor{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);font-size:18px;font-weight:500}
+.kerdes-sor svg{width:20px;height:20px;color:var(--wheat);flex:none}
+.valaszok{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(max-width:700px){.valaszok{grid-template-columns:1fr}}
+.valasz{display:flex;flex-direction:column;gap:7px;padding:14px;border-radius:12px;border:1px solid var(--line);background:rgba(7,26,16,.4)}
+.valasz .honnan{display:flex;align-items:center;justify-content:space-between;gap:8px;font:700 10px/1 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--k)}
+.valasz .honnan span:last-child{color:var(--dim)}
+.valasz p{font-size:15px;line-height:1.5;color:var(--muted)}
+.pelda{align-self:flex-start}
+
+.elvek{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);margin-top:40px}
+.elv{padding:22px 22px 0 0;display:flex;flex-direction:column;gap:8px}
+.elv + .elv{padding-left:22px;border-left:1px solid var(--line)}
+.elv b{font-size:18px;font-weight:600}
+.elv span{font-size:15px;color:var(--muted);line-height:1.55}
+@media(max-width:800px){.elvek{grid-template-columns:1fr}.elv + .elv{padding-left:0;border-left:0;border-top:1px solid var(--line);margin-top:18px;padding-top:18px}}
+
+/* ------------------------------------------------------------ lépcsők */
+.lepcso{position:relative}
+.lepcso .szam{font:700 13px 'JetBrains Mono',monospace;color:var(--wheat);letter-spacing:.1em}
+.lepcso ul{list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:4px}
+.lepcso li{font-size:15px;color:var(--muted);line-height:1.45;padding-left:18px;position:relative}
+.lepcso li::before{content:"";position:absolute;left:0;top:9px;width:9px;height:3px;border-radius:2px;background:var(--wheat)}
+.sav{margin-top:auto;padding-top:14px;display:flex;flex-direction:column;gap:7px}
+.sav-cim{display:flex;justify-content:space-between;font-size:13px;color:var(--dim)}
+.sav-cim b{font-family:'JetBrains Mono',monospace;color:var(--text);font-weight:700}
+.sav-test{height:8px;border-radius:8px;background:rgba(237,163,30,.18);overflow:hidden;display:flex}
+.sav-test i{height:100%;background:var(--greenL);width:var(--w)}
+
+/* --------------------------------------------------------------- zárás */
+.final{background:linear-gradient(135deg,#0b4a27,#0a3a1f);border-radius:22px;padding:54px;text-align:center;border:1px solid rgba(237,163,30,.22)}
+.final h2{margin-bottom:14px}
+.final p{color:rgba(251,246,236,.78);font-size:18px;line-height:1.6;max-width:58ch;margin:0 auto}
+.final .cta{justify-content:center}
+@media(max-width:700px){.final{padding:34px 20px}}
+footer{border-top:1px solid var(--line);padding:32px 0;color:rgba(251,246,236,.5);font-size:14px}
+.footrow{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.note{font-size:13px;color:rgba(251,246,236,.42);margin-top:18px;line-height:1.65;max-width:90ch}
+
+.jelveny.resz{color:#d9cf8a;border-color:rgba(217,207,138,.45)}
+
+/* ------------------------------------------------ külföldi partner */
+.lanc{display:grid;grid-template-columns:1fr auto 1.15fr auto 1fr;gap:12px;align-items:stretch;margin-top:8px}
+.szint{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:20px;display:flex;flex-direction:column;gap:8px}
+.szint .mono{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.szint b{font-size:20px;font-weight:700;letter-spacing:-.01em}
+.szint p{font-size:15px;color:var(--muted);line-height:1.5}
+.szint.mi{border-color:rgba(237,163,30,.55);background:linear-gradient(160deg,rgba(237,163,30,.13),rgba(237,163,30,.03))}
+.szint.mi .mono{color:var(--wheat)}
+.kapocs{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-width:96px;text-align:center}
+.kapocs span{font:700 10px/1.35 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.kapocs svg{width:40px;height:16px;color:var(--dim)}
+.kapocs.nehez span{color:var(--wheat)}
+.kapocs.nehez svg{color:var(--wheat)}
+@media(max-width:860px){.lanc{grid-template-columns:1fr}.kapocs{flex-direction:row;min-width:0;padding:2px 0}.kapocs svg{transform:rotate(90deg);width:28px}}
+
+.csatorna-gorgo{overflow-x:auto;margin-top:22px;padding-bottom:6px}
+.csatorna{display:grid;grid-template-columns:repeat(7,minmax(150px,1fr));gap:10px;min-width:1080px}
+.fok{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:14px;display:flex;flex-direction:column;gap:8px}
+.fok .tolcser{display:block;height:8px;border-radius:8px;background:var(--k-kulfold);width:var(--w);opacity:.85}
+.fok .mono{font-size:11px;color:var(--dim);letter-spacing:.08em}
+.fok b{font-size:16px;font-weight:600}
+.fok p{font-size:13.5px;line-height:1.45;color:var(--muted)}
+.fok .jelveny{align-self:flex-start;margin-top:auto}
+.gorgo-jel{display:none;font-size:13px;color:var(--dim);margin-top:8px}
+@media(max-width:1180px){.gorgo-jel{display:block}}
+
+.esemenyek{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:26px}
+@media(max-width:760px){.esemenyek{grid-template-columns:1fr}}
+.esemeny{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:18px}
+.datum{width:84px;height:84px;border-radius:14px;background:rgba(111,143,247,.14);border:1px solid rgba(111,143,247,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center}
+.datum b{font-size:22px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.datum span{font:700 10px/1.2 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--k-kulfold)}
+.esemeny h3{font-size:18px}
+.esemeny p{font-size:14px;color:var(--muted);line-height:1.45;margin-top:4px}
+.esemeny .hatra{font:700 12px 'JetBrains Mono',monospace;color:var(--wheat);margin:8px 12px 0 0;display:inline-block}
+.esemeny a{color:var(--dim);font-size:12px}
+
+/* --------------------------------------------------------- tervnaptár */
+.naptar-gorgo{overflow-x:auto;margin-top:8px;border:1px solid var(--line);border-radius:18px;background:var(--bg2)}
+.naptar{position:relative;min-width:1040px;padding:14px 16px 18px}
+.naptar-fej,.sav-sor{display:grid;grid-template-columns:132px repeat(12,minmax(70px,1fr))}
+.naptar-fej{border-bottom:1px solid var(--line);padding:4px 0 8px;margin-bottom:4px}
+.naptar-fej span{font:700 11px 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);padding-left:6px;white-space:nowrap}
+.naptar-fej span em{font-style:normal;color:var(--wheat)}
+.sav-sor{grid-auto-rows:30px;row-gap:6px;padding:9px 0;border-bottom:1px solid rgba(251,246,236,.06)}
+.sav-sor:last-of-type{border-bottom:0}
+.sav-nev{grid-column:1;grid-row:1 / span 2;display:flex;align-items:center;gap:8px;font-weight:600;font-size:14.5px}
+.sav-nev::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--k);flex:none}
+.hsav{position:relative;display:flex;align-items:center;gap:6px;min-width:0;margin:0 3px;padding:0 9px;border-radius:7px;font-size:12.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  background:color-mix(in srgb,var(--k) 30%,transparent);border:1px solid color-mix(in srgb,var(--k) 70%,transparent);color:var(--text)}
+.hsav.pelda{background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--k) 16%,transparent) 0 6px,transparent 6px 12px);border-style:dashed;color:var(--muted)}
+.hsav.pont{overflow:visible;background:none;border:0;padding:0;margin:0;z-index:2}
+.hsav.pont i{width:12px;height:12px;background:var(--k);transform:rotate(45deg);border-radius:2px;flex:none;margin-left:var(--nap)}
+.hsav.pont span{padding:4px 9px;border-radius:6px;background:var(--bg);border:1px solid var(--k);font-weight:600;color:var(--text)}
+.ma-vonal{position:absolute;top:30px;bottom:10px;width:2px;background:var(--wheat);left:calc(148px + (100% - 164px) * var(--p, 0));box-shadow:0 0 12px rgba(237,163,30,.6);pointer-events:none;z-index:3}
+.ma-vonal::before{content:"MA";position:absolute;top:-16px;left:-8px;font:700 10px 'JetBrains Mono',monospace;color:var(--wheat);letter-spacing:.1em}
+.jelmagyarazat{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:14px;font-size:14px;color:var(--muted)}
+.jelmagyarazat span{display:inline-flex;align-items:center;gap:8px}
+.jelmagyarazat i{width:26px;height:12px;border-radius:4px;border:1px solid rgba(251,246,236,.5);background:rgba(251,246,236,.25)}
+.jelmagyarazat i.pelda{border-style:dashed;background:repeating-linear-gradient(135deg,rgba(251,246,236,.18) 0 4px,transparent 4px 8px)}
+.jelmagyarazat i.pont{width:12px;height:12px;transform:rotate(45deg);border-radius:2px;background:var(--k-kulfold);border:0}
+
+.marketing-sor{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+@media(max-width:860px){.marketing-sor{grid-template-columns:1fr}}
+.mcard{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:20px;display:flex;flex-direction:column;gap:8px}
+.mcard .fejsor{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.mcard .mono{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--k-marketing)}
+.mcard b{font-size:18px}
+.mcard p{font-size:14.5px;color:var(--muted);line-height:1.5}
+
+/* --------------------------------------------------------- vezetői kör */
+.kor{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+.szek{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.szek-fej{display:flex;align-items:center;gap:10px}
+.szek-fej .mik{width:30px;height:30px;border-radius:50%;background:rgba(237,163,30,.14);color:var(--wheat);display:grid;place-items:center;flex:none}
+.szek-fej .mik svg{width:15px;height:15px}
+.szek-fej b{font-size:16px;font-weight:600}
+.chipek{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:4px 9px;border-radius:100px;background:color-mix(in srgb,var(--k) 16%,transparent);border:1px solid color-mix(in srgb,var(--k) 45%,transparent);white-space:nowrap;color:var(--text)}
+.chip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--k)}
+.kozep{grid-column:2;grid-row:2;border-color:rgba(237,163,30,.5);background:radial-gradient(circle at 50% 40%,rgba(237,163,30,.18),rgba(237,163,30,.03) 70%);align-items:center;justify-content:center;text-align:center}
+.kozep svg{width:44px;height:44px;color:var(--wheat)}
+.kozep b{font-size:20px}
+.kozep p{font-size:14px;color:var(--muted);line-height:1.45;max-width:26ch}
+@media(max-width:860px){.kor{grid-template-columns:1fr 1fr}.kozep{grid-column:1 / -1;grid-row:auto;order:-1}}
+@media(max-width:520px){.kor{grid-template-columns:1fr}}
+
+.lathatosag-gorgo{overflow-x:auto;margin-top:12px;border:1px solid var(--line);border-radius:16px;background:var(--bg2)}
+.lathatosag{width:100%;min-width:780px;border-collapse:collapse;font-size:14px}
+.lathatosag th,.lathatosag td{padding:11px 8px;text-align:center;border-bottom:1px solid rgba(251,246,236,.07)}
+.lathatosag th{font:700 10.5px 'JetBrains Mono',monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.lathatosag td:first-child,.lathatosag th:first-child{text-align:left;padding-left:16px}
+.lathatosag td:first-child{font-weight:600;white-space:nowrap}
+.lathatosag tr:last-child td{border-bottom:0}
+.lathatosag tr.kozos td{background:rgba(237,163,30,.07)}
+.lathatosag tr.kozos td:first-child{color:var(--wheat)}
+.jel-lat{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:middle}
+.jel-lat.teljes{background:var(--greenL)}
+.jel-lat.sajat{border:2px solid var(--greenL)}
+.jel-lat.nem{width:10px;height:2px;border-radius:2px;background:rgba(251,246,236,.28)}
+.lat-magyar{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:12px;font-size:14px;color:var(--muted)}
+.lat-magyar span{display:inline-flex;align-items:center;gap:8px}
+
+/* --------------------------------------------------- reggeli megbeszélés */
+.reggel-sin{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:8px}
+@media(max-width:960px){.reggel-sin{grid-template-columns:1fr}}
+.ido{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:14px;display:flex;flex-direction:column;gap:6px}
+.ido .ora{font:700 13px 'JetBrains Mono',monospace;color:var(--wheat)}
+.ido b{font-size:15.5px;font-weight:600}
+.ido p{font-size:13.5px;color:var(--muted);line-height:1.45}
+.ido.fo{border-color:rgba(237,163,30,.55);background:linear-gradient(160deg,rgba(237,163,30,.12),rgba(237,163,30,.02))}
+
+.lap-keret{margin-top:28px;display:grid;grid-template-columns:1.3fr 1fr;gap:18px;align-items:start}
+@media(max-width:900px){.lap-keret{grid-template-columns:1fr}}
+.reggeli-lap{border:1px solid var(--line);border-radius:20px;background:var(--bg2);padding:18px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.lap-fej{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.lap-fej b{font-size:18px}
+.lap-fej .mono{font-size:12px;color:var(--dim)}
+.blokkcim{font:700 11px 'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+.lsor{display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:start;padding:9px 11px;border-radius:10px;background:var(--panel);font-size:14.5px;line-height:1.45}
+.lsor + .lsor{margin-top:6px}
+.lsor .ki{font:700 10px/1.7 'JetBrains Mono',monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--k)}
+@media(max-width:520px){.lsor{grid-template-columns:1fr;gap:2px}}
+.szamok{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(max-width:560px){.szamok{grid-template-columns:1fr 1fr}}
+.szamdoboz{padding:10px;border-radius:10px;background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;gap:3px;min-width:0}
+.szamdoboz .ki{font:700 10px 'JetBrains Mono',monospace;color:var(--k);letter-spacing:.05em;text-transform:uppercase}
+.szamdoboz b{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.szamdoboz span{font-size:12px;color:var(--muted);line-height:1.35}
+.szamdoboz.figyel{border-color:rgba(240,138,114,.55);background:rgba(240,138,114,.08)}
+.lsor.elakad{border:1px dashed rgba(240,138,114,.5);background:rgba(240,138,114,.05)}
+.dontes{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;background:rgba(111,207,151,.1);border:1px solid rgba(111,207,151,.35);font-size:13.5px}
+.dontes svg{width:16px;height:16px;color:var(--greenL);flex:none}
+.dontes .chip{font-size:11.5px}
+.lap-oldal{display:flex;flex-direction:column;gap:12px}
+.lap-oldal .card{padding:18px;gap:8px}
+.lap-oldal .card b{font-size:17px}
+.lap-oldal .card p{font-size:14.5px}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fbf6ec" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V11"/><path d="M12 11c0-4 3-7 8-7 0 4-3 7-8 7z"/><path d="M12 14c0-3-2.5-5.5-7-5.5 0 3 2.5 5.5 7 5.5z"/></svg></span>
+      Élő Adattár
+    </div>
+    <nav class="navlinks">
+      <a href="#ma">Ma</a>
+      <a href="#crm">A CRM</a>
+      <a href="#cel">A végcél</a>
+      <a href="#partner">Partner</a>
+      <a href="#naptar">Naptár</a>
+      <a href="#vezetok">Vezetők</a>
+      <a href="#reggel">Reggel</a>
+      <a href="#lepcsok">Lépcsők</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="pill">Terv · Lajtamag vezetői rendszer</span>
+    <h1>Elmondod — <em>és a helyére kerül.</em></h1>
+    <p class="lead">Hogyan lesz a mai szétszórt cetlikből egy közös adattár, amibe a cég minden vezetője beszél — és ami minden mondattól okosabb lesz. Képekben.</p>
+    <div class="cta">
+      <a class="btn btn-p" href="#ma">Nézd végig ↓</a>
+      <a class="btn btn-s" href="https://balazsfoldhazi.github.io/vetomag-crm-bemutato/">A Vetőmag CRM bemutatója</a>
+    </div>
+
+    <div class="harmas" aria-label="A három állapot">
+      <figure><svg id="mini1" viewBox="0 0 240 130" role="img" aria-label="Szétszórt cetlik"></svg>
+        <figcaption><b>Ma</b><span>szétszórva</span></figcaption></figure>
+      <figure><svg id="mini2" viewBox="0 0 240 130" role="img" aria-label="Rendezett rovatok"></svg>
+        <figcaption><b>A CRM</b><span>rendben — félig</span></figcaption></figure>
+      <figure><svg id="mini3" viewBox="0 0 240 130" role="img" aria-label="Összekapcsolódó adattár"></svg>
+        <figcaption><b>A végcél</b><span>magától épül</span></figcaption></figure>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ 1. MA -->
+<section id="ma">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="kicker"><span class="szam">1</span>Ma</div>
+      <h2>Minden fontos. <em>Semmi sincs a helyén.</em></h2>
+      <p class="sub">Egy ügyvezetői hét néhány cetlije. Füzetben, üzenetben, fejben — hét különböző helyen. Kattints végig a három állapoton.</p>
+    </div>
+
+    <div class="tabla-sor">
+      <div class="allapotok" role="group" aria-label="A tábla állapota">
+        <button type="button" data-allapot="ma" aria-pressed="true"><span class="mono">1</span> Ma</button>
+        <button type="button" data-allapot="crm" aria-pressed="false"><span class="mono">2</span> A CRM-mel</button>
+        <button type="button" data-allapot="cel" aria-pressed="false"><span class="mono">3</span> A végcél</button>
+      </div>
+    </div>
+
+    <div class="tabla" id="tabla" data-allapot="ma">
+      <div class="tabla-kaosz">
+        <div class="cetli" data-kat="teendo" style="--k:var(--k-teendo);--x:2%;--y:3%;--mx:1%;--my:0.5%;--r:-6deg"><span class="forras">Füzet</span>Kovács Béla — visszahívni kedden?? facélia<span class="kat">Teendő</span></div>
+        <div class="cetli" data-kat="ajanlat" style="--k:var(--k-ajanlat);--x:26%;--y:0%;--mx:51%;--my:3%;--r:4deg"><span class="forras">Excel</span>facélia ára 1 450? vagy már 1 520?<span class="kat">Ajánlat &amp; ár</span></div>
+        <div class="cetli" data-kat="labor" style="--k:var(--k-labor);--x:51%;--y:5%;--mx:4%;--my:13.5%;--r:-3deg"><span class="forras">Fejben</span>NÉBIH-audit márciusban — ki készíti elő?<span class="kat">Labor</span></div>
+        <div class="cetli" data-kat="uzem" style="--k:var(--k-uzem);--x:76%;--y:1%;--mx:49%;--my:16.5%;--r:7deg"><span class="forras">Üzenet</span>a püski szárító két napot áll<span class="kat">Üzem</span></div>
+        <div class="cetli" data-kat="nemes" style="--k:var(--k-nemes);--x:9%;--y:30%;--mx:1%;--my:27.5%;--r:5deg"><span class="forras">Cetli</span>Liza szuperelit — idén hol szaporítsuk?<span class="kat">Nemesítés</span></div>
+        <div class="cetli" data-kat="ajanlat" style="--k:var(--k-ajanlat);--x:35%;--y:25%;--mx:52%;--my:30.5%;--r:-8deg"><span class="forras">Hívás</span>20 ha facélia szept. végére — ajánlat!<span class="kat">Ajánlat &amp; ár</span></div>
+        <div class="cetli" data-kat="termelo" style="--k:var(--k-termelo);--x:59%;--y:32%;--mx:4%;--my:41.5%;--r:3deg"><span class="forras">Hívás</span>a termelő idén nem vállal facéliát<span class="kat">Termelő &amp; export</span></div>
+        <div class="cetli" data-kat="termelo" style="--k:var(--k-termelo);--x:78%;--y:27%;--mx:49%;--my:44.5%;--r:-4deg"><span class="forras">E-mail</span>német vevő: csak fémzárolt, új címkével<span class="kat">Termelő &amp; export</span></div>
+        <div class="cetli" data-kat="labor" style="--k:var(--k-labor);--x:1%;--y:56%;--mx:2%;--my:55.5%;--r:-2deg"><span class="forras">E-mail</span>megjött a körvizsgálat eredménye<span class="kat">Labor</span></div>
+        <div class="cetli" data-kat="partner" style="--k:var(--k-partner);--x:23%;--y:51%;--mx:51%;--my:58.5%;--r:6deg"><span class="forras">Üzenet</span>Szabó Annának új e-mail címe van<span class="kat">Partner</span></div>
+        <div class="cetli" data-kat="nemes" style="--k:var(--k-nemes);--x:48%;--y:59%;--mx:5%;--my:69.5%;--r:-5deg"><span class="forras">Füzet</span>kender, 4-es vonal: jobban bírta a szárazságot<span class="kat">Nemesítés</span></div>
+        <div class="cetli" data-kat="eladas" style="--k:var(--k-eladas);--x:72%;--y:54%;--mx:48%;--my:72.5%;--r:2deg"><span class="forras">Fejben</span>mennyit rendelt tavaly ugyanez a vevő?<span class="kat">Eladás</span></div>
+        <div class="cetli" data-kat="teendo" style="--k:var(--k-teendo);--x:15%;--y:78%;--mx:2%;--my:83.5%;--r:-7deg"><span class="forras">Hívás</span>visszahívni a tegnapi nem fogadottat<span class="kat">Teendő</span></div>
+        <div class="cetli" data-kat="terep" style="--k:var(--k-terep);--x:57%;--y:80%;--mx:50%;--my:86.5%;--r:5deg"><span class="forras">Cetli</span>kedd: Orosháza, Kardoskút — túra<span class="kat">Terep</span></div>
+        <div class="cetli" data-kat="kulfold" style="--k:var(--k-kulfold);--x:34%;--y:80%;--r:4deg"><span class="forras">E-mail</span>holland cég fehérmustár-előállítót keres — mi lehetnénk?<span class="kat">Külföldi partner</span></div>
+        <div class="cetli" data-kat="marketing" style="--k:var(--k-marketing);--x:79%;--y:82%;--r:-6deg"><span class="forras">Fejben</span>a katalógus nyomdába még a szezon előtt<span class="kat">Marketing</span></div>
+      </div>
+
+      <div class="tabla-rend">
+        <div class="rovat" data-rovat="partner" data-crm data-cel style="--k:var(--k-partner)"><div class="rovat-fej"><span class="pont"></span>Partner<span class="db mono"></span></div><div class="rovat-tartalom"></div></div>
+        <div class="rovat" data-rovat="ajanlat" data-crm data-cel style="--k:var(--k-ajanlat)"><div class="rovat-fej"><span class="pont"></span>Ajánlat &amp; ár<span class="db mono"></span></div><div class="rovat-tartalom"></div></div>
+        <div class="rovat" data-rovat="teendo" data-crm data-cel style="--k:var(--k-teendo)"><div class="rovat-fej"><span class="pont"></span>Teendő<span class="db mono"></span></div><div class="rovat-tartalom"></div></div>
+        <div class="rovat" data-rovat="terep" data-crm data-cel style="--k:var(--k-terep)"><div class="rovat-fej"><span class="pont"></span>Terep<span class="db mono"></span></div><div class="rovat-tartalom"></div></div>
+        <div class="rovat" data-rovat="eladas" data-crm data-cel style="--k:var(--k-eladas)"><div class="rovat-fej"><span class="pont"></span>Eladás<span class="db mono"></span></div><div class="rovat-tartalom"></div></div>
+        <div class="rovat" data-rovat="labor" data-cel style="--k:var(--k-labor)"><div class="rovat-fej"><span class="pont"></span>Labor<span class="jelveny terv">új</span><span class="db mono"></span></div><div class="rovat-tartalom"></div></div>
+        <div class="rovat" data-rovat="uzem" data-cel style="--k:var(--k-uzem)"><div class="rovat-fej"><span class="pont"></span>Üzem<span class="jelveny terv">új</span><span class="db mono"></span></div><div class="rovat-tartalom"></div></div>
+        <div class="rovat" data-rovat="termelo" data-cel style="--k:var(--k-termelo)"><div class="rovat-fej"><span class="pont"></span>Termelő &amp; export<span class="jelveny terv">új</span><span class="db mono"></span></div><div class="rovat-tartalom"></div></div>
+        <div class="rovat" data-rovat="nemes" data-cel style="--k:var(--k-nemes)"><div class="rovat-fej"><span class="pont"></span>Nemesítés<span class="jelveny terv">új</span><span class="db mono"></span></div><div class="rovat-tartalom"></div></div>
+        <div class="rovat" data-rovat="kulfold" data-cel style="--k:var(--k-kulfold)"><div class="rovat-fej"><span class="pont"></span>Külföldi partner<span class="jelveny terv">új</span><span class="db mono"></span></div><div class="rovat-tartalom"></div></div>
+        <div class="rovat" data-rovat="marketing" data-cel style="--k:var(--k-marketing)"><div class="rovat-fej"><span class="pont"></span>Marketing<span class="jelveny terv">új</span><span class="db mono"></span></div><div class="rovat-tartalom"></div></div>
+        <div class="rovat" data-rovat="nincs" data-crm><div class="rovat-fej">Ezeknek a CRM-ben ma nincs rekesze<span class="db mono"></span></div><div class="rovat-tartalom"></div></div>
+      </div>
+    </div>
+
+    <p class="tabla-felirat" id="tablaFelirat" aria-live="polite" style="margin-top:16px"></p>
+
+    <div class="grid g3" style="margin-top:34px">
+      <div class="card baj">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#f08a72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2"/><path d="M5 3 2 6M19 3l3 3"/></svg>
+        <h3>Lejár, és senki nem szól</h3>
+        <p>Az akkreditált labor hatósági jogkörrel dolgozik. Egy elcsúszott audit-határidő nem kellemetlenség — a jogkört teszi kockára.</p>
+      </div>
+      <div class="card baj">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#f08a72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 14-5.3L20 9"/><path d="M20 4v5h-5"/><path d="M20 12a8 8 0 0 1-14 5.3L4 15"/><path d="M4 20v-5h5"/></svg>
+        <h3>Kétszer kérdezzük meg</h3>
+        <p>Mennyi volt az ár? Mit rendelt tavaly? Ha a válasz egy füzetben van, újra meg kell kérdezni — a partnert vagy a kollégát.</p>
+      </div>
+      <div class="card baj">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#f08a72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/><path d="M17 3.5l3 3M20 3.5l-3 3"/></svg>
+        <h3>A tudás a fejekben marad</h3>
+        <p>400+ szerződéses termelő, három telephely, három futó nemesítési program. Ennyit senki nem tart fejben — mégis ott van.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap valaszto"></div>
+
+<!-- ============================================================ 2. A CRM -->
+<section id="crm">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="kicker"><span class="szam">2</span>A CRM</div>
+      <h2>A cetlik fele <em>mező lett.</em></h2>
+      <p class="sub">A Vetőmag CRM az értékesítést rendbe tette: partner, ajánlat, hívás, teendő, túra — mind a helyén, kereshetően. Nem makett, ez fut ma.</p>
+    </div>
+
+    <div class="statsor">
+      <div class="stat"><b>79</b><span>adattípus a rendszerben</span></div>
+      <div class="stat"><b>79</b><span>szolgáltatás, AI-ügynökökkel</span></div>
+      <div class="stat"><b>1 800+</b><span>automatikus ellenőrzés minden változásnál</span></div>
+      <div class="stat"><b>6</b><span>rekesz, amibe a diktálás ma is szétoszt</span></div>
+    </div>
+
+    <div class="kepek">
+      <figure class="shot"><img src="kepek/02-partnerlista.jpg" alt="Partnerlista a CRM-ben" loading="lazy"><figcaption><b>Partnerek</b>Kereshetően, megyére, szegmensre szűrve</figcaption></figure>
+      <figure class="shot"><img src="kepek/06-arajanlat-szerk.jpg" alt="Árajánlat szerkesztése élő előnézettel" loading="lazy"><figcaption><b>Árajánlat</b>Szerkesztő és élő előnézet egymás mellett</figcaption></figure>
+      <figure class="shot"><img src="kepek/14-teendok.jpg" alt="Teendőlista" loading="lazy"><figcaption><b>Teendők</b>Határidővel, partnerhez kötve</figcaption></figure>
+      <figure class="shot"><img src="kepek/16-napi-tura.jpg" alt="Napi túra térképen" loading="lazy"><figcaption><b>Napi túra</b>Kijelölt partnerek útvonalba rendezve</figcaption></figure>
+    </div>
+
+    <div class="sinek">
+      <div class="sin">
+        <div class="sin-cim">A rend ára<span class="mono">egy hívás után, kézzel</span></div>
+        <div class="lepesek"><span>Partner megkeresése</span><i>→</i><span>Hívásjegyzet</span><i>→</i><span>Teendő felvétele</span><i>→</i><span>Ajánlat megnyitása</span><i>→</i><span>Mezők kitöltése</span><i>→</i><span>Mentés</span></div>
+      </div>
+      <div class="sin gyors">
+        <div class="sin-cim">Ugyanez hanggal<span class="mono">a végcél</span></div>
+        <div class="lepesek"><span>Egy mondat</span><i>→</i><span>Jóváhagyás</span></div>
+      </div>
+    </div>
+
+    <p class="kiemel">A rend csak annyit ér, amennyit beírnak. <b>Az ügyvezető nem gépel</b> — és a cetlik másik felének, a labornak, az üzemnek, a nemesítésnek ma nincs is rekesze.</p>
+  </div>
+</section>
+
+<div class="wrap valaszto"></div>
+
+<!-- ============================================================ 3. A VÉGCÉL -->
+<section id="cel">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="kicker"><span class="szam">3</span>A végcél</div>
+      <h2>Elmondod. A rendszer <em>szétosztja, és közben tanul.</em></h2>
+      <p class="sub">Nincs űrlap. Egy mondatból több rekesz töltődik — és a rekeszek maguk is a használatból nőnek.</p>
+    </div>
+
+    <h3 style="margin-bottom:14px">Egy mondat útja</h3>
+    <div class="mondat" id="mondat" data-lepes="4">
+      <div class="mondat-fej">
+        <div class="pontok">
+          <span class="lepes-pont aktiv"><span class="mono">1</span>Hang</span>
+          <span class="lepes-pont aktiv"><span class="mono">2</span>Szöveg</span>
+          <span class="lepes-pont aktiv"><span class="mono">3</span>Szétosztás</span>
+          <span class="lepes-pont aktiv"><span class="mono">4</span>Rekeszek</span>
+        </div>
+        <button type="button" class="btn btn-p" id="mondatLejatszas" style="padding:11px 20px;font-size:15px">▶ Lejátszás</button>
+      </div>
+
+      <div class="mondat-test">
+        <div class="hangpanel">
+          <div class="hullam" id="hullam" aria-hidden="true"></div>
+          <div class="allapotsor"><span>AI-nak diktálás · nincs jelzőhang</span><span>0:09</span></div>
+          <p class="atirat">„Beszéltem <mark style="--k:var(--k-partner)">Kovács Bélával</mark>, <mark style="--k:var(--k-ajanlat)">húsz hektár facéliát kér szeptember végére</mark>, <mark style="--k:var(--k-teendo)">küldjük ki neki az árat</mark>. <mark style="--k:var(--k-uzem)">A püski szárító jövő héten két napot áll</mark>. És szóljatok: <mark style="--k:var(--k-labor)">a NÉBIH-audit márciusban lesz</mark>."</p>
+        </div>
+
+        <div class="rekeszek">
+          <div class="rekesz" style="--k:var(--k-partner)">
+            <span class="ikon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
+            <div><div class="nev">Partner</div><div class="ertek">Kovács Béla · hívás rögzítve</div></div>
+            <span class="jelveny ma">ma is</span>
+          </div>
+          <div class="rekesz" style="--k:var(--k-ajanlat)">
+            <span class="ikon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h5"/></svg></span>
+            <div><div class="nev">Ajánlat</div><div class="ertek">Facélia · 20 ha · szept. végére</div></div>
+            <span class="jelveny ma">ma is</span>
+          </div>
+          <div class="rekesz" style="--k:var(--k-teendo)">
+            <span class="ikon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m5 12 4 4 10-10"/></svg></span>
+            <div><div class="nev">Teendő</div><div class="ertek">Árajánlat kiküldése · ma</div></div>
+            <span class="jelveny ma">ma is</span>
+          </div>
+          <div class="rekesz" style="--k:var(--k-uzem)">
+            <span class="ikon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21V10l6 3V8l6 3V4h6v17z"/></svg></span>
+            <div><div class="nev">Üzem</div><div class="ertek">Püski szárító · 2 nap leállás · jövő hét</div></div>
+            <span class="jelveny terv">terv</span>
+          </div>
+          <div class="rekesz" style="--k:var(--k-labor)">
+            <span class="ikon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 3h6M10 3v6l-5 10a1.5 1.5 0 0 0 1.3 2h11.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/></svg></span>
+            <div><div class="nev">Labor</div><div class="ertek">NÉBIH-audit · március · emlékeztető előtte</div></div>
+            <span class="jelveny terv">terv</span>
+          </div>
+          <div class="jovahagy">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>
+            <span>Mentés előtt átnézed és kipipálod. <b>Jóváhagyás nélkül semmi nem kerül be.</b></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin:56px 0 14px">Az adattár, ami nő</h3>
+    <div class="halo-doboz">
+      <div class="halo-fej">
+        <div class="honapok" role="group" aria-label="Idő">
+          <button type="button" data-t="1" aria-pressed="false">1. hónap</button>
+          <button type="button" data-t="3" aria-pressed="false">3. hónap</button>
+          <button type="button" data-t="6" aria-pressed="false">6. hónap</button>
+          <button type="button" data-t="12" aria-pressed="true">12. hónap</button>
+        </div>
+        <button type="button" class="btn btn-s" id="haloLejatszas" style="padding:9px 18px;font-size:14px">▶ Egy év egyben</button>
+      </div>
+      <div class="halo-test">
+        <div class="vaszon"><canvas id="halo" aria-label="Egy év alatt összekapcsolódó adattár szemléltetése" role="img"></canvas></div>
+        <div class="halo-oldal">
+          <span class="fazis" id="haloFazis"></span>
+          <h3 id="haloCim"></h3>
+          <p id="haloSzoveg"></p>
+          <div class="szamlalok">
+            <div class="szamlalo"><span><i class="p" style="--k:var(--wheat)"></i>Elmondott mondat</span><b id="szMind">0</b></div>
+            <div class="szamlalo"><span><i class="p" style="--k:var(--greenL)"></i>Rekeszben</span><b id="szRekesz">0</b></div>
+            <div class="szamlalo"><span><i class="p" style="--k:rgba(251,246,236,.55)"></i>Még szabad szöveg</span><b id="szSzabad">0</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="halo-lab">Szemléltetés — a pontok és a számok nem valódi adatok, a folyamatot mutatják.</div>
+    </div>
+
+    <h3 style="margin:56px 0 14px">Kérdezz rá</h3>
+    <div class="kerdes">
+      <span class="jelveny terv pelda">Példa</span>
+      <div class="kerdes-sor">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+        „Mit tudunk a Liza facéliáról?"
+      </div>
+      <div class="valaszok">
+        <div class="valasz" style="--k:var(--k-nemes)"><div class="honnan"><span>Nemesítési napló</span><span>korábbi évek</span></div><p>Mit figyeltünk meg a fajtafenntartásnál, melyik parcellán, milyen időjárásban.</p></div>
+        <div class="valasz" style="--k:var(--k-termelo)"><div class="honnan"><span>Termelők</span><span>szaporítás</span></div><p>Ki szaporította, mekkora területen, és ki mondta le.</p></div>
+        <div class="valasz" style="--k:var(--k-labor)"><div class="honnan"><span>Labor</span><span>tételek</span></div><p>Milyen csírázással és tisztasággal jöttek be a tételek.</p></div>
+        <div class="valasz" style="--k:var(--k-eladas)"><div class="honnan"><span>Eladás</span><span>vevők</span></div><p>Kinek adtuk el, mennyiért, és ki kérdezett rá újra.</p></div>
+      </div>
+    </div>
+
+    <div class="elvek">
+      <div class="elv"><b>Semmi nem kerül be jóváhagyás nélkül</b><span>A gép javasol, az ember dönt. Minden kártya átírható és kivehető.</span></div>
+      <div class="elv"><b>A szerkezet a használatból nő</b><span>Ami még nem fér rekeszbe, szabad szövegként megmarad — és megmutatja, mi hiányzik.</span></div>
+      <div class="elv"><b>Egy tétel, egy igazság</b><span>A termelő, a labor és a vevő ugyanarra a tételre mutat, nem három külön táblázatra.</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap valaszto"></div>
+
+<!-- ============================================================ KÜLFÖLDI PARTNER -->
+<section id="partner">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="kicker">Közelebbről · külföldi partner</div>
+      <h2>A legnehezebb munka: <em>megtalálni, akinek termelünk.</em></h2>
+      <p class="sub">A nagy vetőmagcégek ugyanazt csinálják, amit a Lajtamag a termelőivel: máshol állíttatják elő a vetőmagjukat. Lefelé a hálózat megvan. Felfelé a partnert az ügyvezető keresi.</p>
+    </div>
+
+    <div class="lanc">
+      <div class="szint">
+        <span class="mono">Megrendelő</span>
+        <b>Nagy külföldi vetőmagcég</b>
+        <p>Nemesít és forgalmaz — az előállítást kiadja. Az ellenszezonért a déli féltekére is elmegy.</p>
+      </div>
+      <div class="kapocs nehez"><svg viewBox="0 0 40 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h34M30 3l6 5-6 5"/></svg><span>ezt kell<br>megtalálni</span></div>
+      <div class="szint mi">
+        <span class="mono">Előállító</span>
+        <b>Lajtamag</b>
+        <p>Évi 8–10 ezer hektár céltermeltetés, akkreditált labor, feldolgozás három telephelyen.</p>
+      </div>
+      <div class="kapocs"><svg viewBox="0 0 40 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h34M30 3l6 5-6 5"/></svg><span>ez már<br>megvan</span></div>
+      <div class="szint">
+        <span class="mono">Termelők</span>
+        <b>400+ szerződéses termelő</b>
+        <p>Országos hálózat, a vetéstől a betakarításig szakmai felügyelettel.</p>
+      </div>
+    </div>
+
+    <h3 style="margin:48px 0 0">Egy partner útja — és ki segít benne</h3>
+    <p class="sub" style="margin-top:6px;font-size:15px">Zöld jelvény: ma is van rá eszköz a CRM-ben. Homok: részben. Sárga: terv.</p>
+    <div class="csatorna-gorgo">
+      <div class="csatorna">
+        <div class="fok"><i class="tolcser" style="--w:100%"></i><span class="mono">1 · JELÖLT</span><b>Ki termeltet?</b><p>Melyik cég, milyen fajt, melyik piacra ad ki előállításra.</p><span class="jelveny resz">adatdúsító</span></div>
+        <div class="fok"><i class="tolcser" style="--w:86%"></i><span class="mono">2 · KUTATÁS</span><b>Kik ők?</b><p>Cégprofil, weboldal, EU-s adószám-ellenőrzés.</p><span class="jelveny ma">profilozó</span></div>
+        <div class="fok"><i class="tolcser" style="--w:72%"></i><span class="mono">3 · MEGKERESÉS</span><b>Első levél</b><p>Utánkövetéssel — nem egyszeri kör. A partner nyelvén.</p><span class="jelveny resz">e-mail ügynök</span></div>
+        <div class="fok"><i class="tolcser" style="--w:58%"></i><span class="mono">4 · TALÁLKOZÓ</span><b>Kongresszuson</b><p>Kivel érdemes beszélni, mit tudunk róla, mit kérdezett legutóbb.</p><span class="jelveny terv">terv</span></div>
+        <div class="fok"><i class="tolcser" style="--w:44%"></i><span class="mono">5 · MINTA</span><b>Mintatétel</b><p>A labor eredményével együtt megy ki.</p><span class="jelveny terv">terv</span></div>
+        <div class="fok"><i class="tolcser" style="--w:30%"></i><span class="mono">6 · PRÓBA</span><b>Próbatermeltetés</b><p>Termelő, parcella, tétel — egy szezon bizonyítás.</p><span class="jelveny terv">terv</span></div>
+        <div class="fok"><i class="tolcser" style="--w:18%"></i><span class="mono">7 · SZERZŐDÉS</span><b>Többéves program</b><p>Devizás érték árfolyammal, lejárat, vállalások.</p><span class="jelveny resz">árfolyam</span></div>
+      </div>
+    </div>
+    <p class="gorgo-jel">← oldalra húzható →</p>
+
+    <div class="esemenyek">
+      <div class="esemeny">
+        <div class="datum"><b>25–28</b><span>2026 okt.</span></div>
+        <div>
+          <h3>Euroseeds Congress</h3>
+          <p>Valencia, Spanyolország — az európai vetőmagszakma éves találkozója.</p>
+          <span class="hatra" data-datum="2026-10-25"></span>
+          <a href="https://www.seedworld.com/us/2026/03/31/the-countdown-to-euroseeds-2026-in-valencia-has-officially-begun-2/">forrás</a>
+        </div>
+      </div>
+      <div class="esemeny">
+        <div class="datum"><b>17–19</b><span>2027 máj.</span></div>
+        <div>
+          <h3>ISF World Seed Congress</h3>
+          <p>Toronto, Kanada — a nemzetközi vetőmag-kereskedelem kongresszusa.</p>
+          <span class="hatra" data-datum="2027-05-17"></span>
+          <a href="https://www.mtccc.com/single-event/isf-world-seed-congress/">forrás</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap valaszto"></div>
+
+<!-- ============================================================ TERVNAPTÁR -->
+<section id="naptar">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="kicker">Közelebbről · tervnaptár</div>
+      <h2>Egy képen az év — <em>marketinggel együtt.</em></h2>
+      <p class="sub">A vetőmag a szezonra él. A naptár nem azt mutatja, mi van ma, hanem azt, mikor kell már szerződni, vizsgálni, hirdetni.</p>
+    </div>
+
+    <div class="naptar-gorgo">
+      <div class="naptar">
+        <div class="naptar-fej"><span></span><span><em>Sze</em> 2026</span><span>Okt</span><span>Nov</span><span>Dec</span><span>Jan 2027</span><span>Feb</span><span>Már</span><span>Ápr</span><span>Máj</span><span>Jún</span><span>Júl</span><span>Aug</span></div>
+
+        <div class="sav-sor" style="--k:var(--k-ajanlat)">
+          <span class="sav-nev">Értékesítés</span>
+          <span class="hsav" style="grid-column:2/4;grid-row:1" title="Fajtakatalógus: őszi vetésidő">Őszi vetés · zöldtrágya</span>
+          <span class="hsav" style="grid-column:8/9;grid-row:1" title="Fajtakatalógus: tavaszi vetésidő">Tavaszi vetés</span>
+          <span class="hsav" style="grid-column:13/14;grid-row:1" title="Fajtakatalógus: az őszi vetésidő kezdete">Őszi vetés</span>
+          <span class="hsav pelda" style="grid-column:6/8;grid-row:2">Tavaszi rendelések</span>
+          <span class="hsav pelda" style="grid-column:11/13;grid-row:2">Őszi rendelések</span>
+        </div>
+
+        <div class="sav-sor" style="--k:var(--k-marketing)">
+          <span class="sav-nev">Marketing</span>
+          <span class="hsav pelda" style="grid-column:2/4;grid-row:1">Export-portfólió a kongresszusra</span>
+          <span class="hsav pelda" style="grid-column:6/8;grid-row:1">Tavaszi kampány</span>
+          <span class="hsav pelda" style="grid-column:10/12;grid-row:1">Fajtakatalógus nyomdába</span>
+          <span class="hsav pelda" style="grid-column:11/13;grid-row:2">Őszi kampány</span>
+        </div>
+
+        <div class="sav-sor" style="--k:var(--k-kulfold)">
+          <span class="sav-nev">Külföldi partner</span>
+          <span class="hsav pont" style="grid-column:3/4;grid-row:1;--nap:78%"><i></i><span>Euroseeds · Valencia</span></span>
+          <span class="hsav pont" style="grid-column:10/11;grid-row:1;--nap:52%"><i></i><span>ISF · Toronto</span></span>
+          <span class="hsav pelda" style="grid-column:2/4;grid-row:2">Megkeresések</span>
+          <span class="hsav pelda" style="grid-column:4/7;grid-row:2">Szerződések a következő szezonra</span>
+          <span class="hsav pelda" style="grid-column:8/10;grid-row:2">Mintatételek kiküldése</span>
+        </div>
+
+        <div class="sav-sor" style="--k:var(--k-termelo)">
+          <span class="sav-nev">Termelés</span>
+          <span class="hsav pelda" style="grid-column:4/8;grid-row:1">Termelői szerződések</span>
+          <span class="hsav pelda" style="grid-column:8/12;grid-row:1">Vetés és szemlék</span>
+          <span class="hsav pelda" style="grid-column:12/14;grid-row:1">Betakarítás · átvétel</span>
+          <span class="hsav pelda" style="grid-column:8/11;grid-row:2">Próbatermeltetés külföldi partnernek</span>
+        </div>
+
+        <div class="sav-sor" style="--k:var(--k-labor)">
+          <span class="sav-nev">Labor</span>
+          <span class="hsav pelda" style="grid-column:2/4;grid-row:1">Vizsgálati csúcs</span>
+          <span class="hsav pelda" style="grid-column:8/9;grid-row:1">NÉBIH-audit</span>
+          <span class="hsav pelda" style="grid-column:13/14;grid-row:1">Átvételi minták</span>
+          <span class="hsav pelda" style="grid-column:8/10;grid-row:2">Minták külföldre</span>
+        </div>
+
+        <div class="ma-vonal" id="maVonal"></div>
+      </div>
+    </div>
+    <p class="gorgo-jel">← oldalra húzható →</p>
+
+    <div class="jelmagyarazat">
+      <span><i></i>Valós időszak — a 2026-os fajtakatalógus vetésidői</span>
+      <span><i class="pont"></i>Valós esemény — szakmai kongresszus</span>
+      <span><i class="pelda"></i>Példa — a naptár ilyeneket gyűjt a diktálásból</span>
+    </div>
+
+    <div class="marketing-sor">
+      <div class="mcard"><div class="fejsor"><span class="mono">Évente</span><span class="jelveny terv">terv</span></div><b>Fajtakatalógus</b><p>A 2026-os kiadás 41 oldal. A határideje a vetési szezon előtt van — ezért a naptárban a helye.</p></div>
+      <div class="mcard"><div class="fejsor"><span class="mono">Külföldre</span><span class="jelveny terv">terv</span></div><b>Export-portfólió</b><p>A 16 oldalas angol cégismertető. Ez megy a külföldi megkereséssel és a kongresszusra.</p></div>
+      <div class="mcard"><div class="fejsor"><span class="mono">Folyamatos</span><span class="jelveny ma">ma is</span></div><b>Kampányok</b><p>Az e-mail kampány a CRM-ben ma is fut, méréssel és utánkövetéssel. Az ütemezése kerül a naptárba.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap valaszto"></div>
+
+<!-- ============================================================ VEZETŐI KÖR -->
+<section id="vezetok">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="kicker">Közelebbről · a vezetői kör</div>
+      <h2>Mindenki ugyanazon a szinten — <em>egy közös adattárba.</em></h2>
+      <p class="sub">Nem az ügyvezető naplója. A pénzügytől a termelésig minden vezető ugyanazt csinálja, mint ma az üzletkötő: elmondja, jóváhagyja, és a helyére kerül.</p>
+    </div>
+
+    <div class="kor">
+      <div class="szek kozep">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><ellipse cx="24" cy="11" rx="15" ry="5"/><path d="M9 11v13c0 2.8 6.7 5 15 5s15-2.2 15-5V11"/><path d="M9 24v13c0 2.8 6.7 5 15 5s15-2.2 15-5V24"/></svg>
+        <b>Közös adattár</b>
+        <p>Egy igazság minden partnerről, tételről és határidőről — akárki mondta el.</p>
+      </div>
+      <div class="szek"><div class="szek-fej"><span class="mik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span><b>Ügyvezető</b></div>
+        <div class="chipek"><span class="chip" style="--k:var(--k-partner)">Partner</span><span class="chip" style="--k:var(--k-kulfold)">Külföldi partner</span><span class="chip" style="--k:var(--wheat)">Döntés</span></div></div>
+      <div class="szek"><div class="szek-fej"><span class="mik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span><b>Pénzügy</b></div>
+        <div class="chipek"><span class="chip" style="--k:var(--k-eladas)">Kintlévőség</span><span class="chip" style="--k:var(--k-uzem)">Fizetési határidő</span><span class="chip" style="--k:var(--k-teendo)">Pályázat</span></div></div>
+      <div class="szek"><div class="szek-fej"><span class="mik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span><b>Értékesítés</b></div>
+        <div class="chipek"><span class="chip" style="--k:var(--k-ajanlat)">Ajánlat</span><span class="chip" style="--k:var(--k-teendo)">Teendő</span><span class="chip" style="--k:var(--k-terep)">Túra</span></div></div>
+      <div class="szek"><div class="szek-fej"><span class="mik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span><b>Export &amp; partner</b></div>
+        <div class="chipek"><span class="chip" style="--k:var(--k-kulfold)">Jelölt</span><span class="chip" style="--k:var(--k-labor)">Mintatétel</span><span class="chip" style="--k:var(--k-termelo)">Követelmény</span></div></div>
+      <div class="szek"><div class="szek-fej"><span class="mik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span><b>Marketing</b></div>
+        <div class="chipek"><span class="chip" style="--k:var(--k-marketing)">Kampány</span><span class="chip" style="--k:var(--k-marketing)">Katalógus</span><span class="chip" style="--k:var(--k-kulfold)">Kongresszus</span></div></div>
+      <div class="szek"><div class="szek-fej"><span class="mik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span><b>Termelés</b></div>
+        <div class="chipek"><span class="chip" style="--k:var(--k-termelo)">Termelő</span><span class="chip" style="--k:var(--k-terep)">Szemle</span><span class="chip" style="--k:var(--k-nemes)">Tábla</span></div></div>
+      <div class="szek"><div class="szek-fej"><span class="mik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span><b>Üzem</b></div>
+        <div class="chipek"><span class="chip" style="--k:var(--k-uzem)">Kapacitás</span><span class="chip" style="--k:var(--k-uzem)">Leállás</span><span class="chip" style="--k:var(--k-ajanlat)">Tétel</span></div></div>
+      <div class="szek"><div class="szek-fej"><span class="mik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span><b>Labor &amp; K+F</b></div>
+        <div class="chipek"><span class="chip" style="--k:var(--k-labor)">Minta</span><span class="chip" style="--k:var(--k-labor)">Audit</span><span class="chip" style="--k:var(--k-nemes)">Kísérlet</span></div></div>
+    </div>
+
+    <h3 style="margin:48px 0 0">Ugyanaz a szint — de nem mindenki lát mindent</h3>
+    <p class="sub" style="margin-top:6px;font-size:15px">Az eszköz mindenkinek ugyanaz. Hogy ki mit lát, azt a tulajdonosok döntik el — a CRM-ben ehhez ma is megvan a modulonkénti jogosultság és a kétlépcsős belépés. <span class="jelveny terv">javaslat</span></p>
+    <div class="lathatosag-gorgo">
+      <table class="lathatosag">
+        <thead><tr><th>Adat</th><th>Ügyvezető</th><th>Pénzügy</th><th>Értékesítés</th><th>Export</th><th>Marketing</th><th>Termelés</th><th>Üzem</th><th>Labor &amp; K+F</th></tr></thead>
+        <tbody>
+          <tr class="kozos"><td>Reggeli lap, döntésnapló, naptár</td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td></tr>
+          <tr><td>Partnerek, ajánlatok, hívások</td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat sajat"></i></td><td><i class="jel-lat nem"></i></td><td><i class="jel-lat sajat"></i></td></tr>
+          <tr><td>Szerződések</td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat sajat"></i></td><td><i class="jel-lat sajat"></i></td><td><i class="jel-lat nem"></i></td><td><i class="jel-lat sajat"></i></td><td><i class="jel-lat nem"></i></td><td><i class="jel-lat nem"></i></td></tr>
+          <tr><td>Termelés és tételek</td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat sajat"></i></td><td><i class="jel-lat sajat"></i></td><td><i class="jel-lat sajat"></i></td><td><i class="jel-lat nem"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td></tr>
+          <tr><td>Labor-eredmények</td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat nem"></i></td><td><i class="jel-lat sajat"></i></td><td><i class="jel-lat sajat"></i></td><td><i class="jel-lat nem"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td></tr>
+          <tr><td>Kintlévőség, fizetések</td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat sajat"></i></td><td><i class="jel-lat sajat"></i></td><td><i class="jel-lat nem"></i></td><td><i class="jel-lat nem"></i></td><td><i class="jel-lat nem"></i></td><td><i class="jel-lat nem"></i></td></tr>
+          <tr><td>Árrés, bérek</td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat teljes"></i></td><td><i class="jel-lat nem"></i></td><td><i class="jel-lat nem"></i></td><td><i class="jel-lat nem"></i></td><td><i class="jel-lat nem"></i></td><td><i class="jel-lat nem"></i></td><td><i class="jel-lat nem"></i></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="lat-magyar">
+      <span><i class="jel-lat teljes"></i>Mindent lát</span>
+      <span><i class="jel-lat sajat"></i>Csak ami a saját területét érinti</span>
+      <span><i class="jel-lat nem"></i>Nem látja</span>
+    </div>
+  </div>
+</section>
+
+<div class="wrap valaszto"></div>
+
+<!-- ============================================================ REGGELI MEGBESZÉLÉS -->
+<section id="reggel">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="kicker">Közelebbről · reggeli megbeszélés</div>
+      <h2>15 perc, <em>egy lapból.</em></h2>
+      <p class="sub">A lapot a rendszer rakja össze reggelre, mindenki tegnapi diktálásából. A megbeszélésen már nem beszámolnak — döntenek.</p>
+    </div>
+
+    <div class="reggel-sin">
+      <div class="ido"><span class="ora">Tegnap</span><b>Mindenki diktál</b><p>Ami a nap során történt — telefon, szemle, labor, számla.</p></div>
+      <div class="ido"><span class="ora">7:30</span><b>Kész a reggeli lap</b><p>Tegnapi diktálások, mai határidők, riasztások. Értesítés minden vezetőnek.</p></div>
+      <div class="ido fo"><span class="ora">8:00–8:15</span><b>A megbeszélés</b><p>Csak az eltérés és az elakadás. A döntést ott helyben bemondják.</p></div>
+      <div class="ido"><span class="ora">8:15</span><b>Felelős és határidő</b><p>Minden döntés a felelős teendőlistájába kerül. A vezetők a saját csapatukkal folytatják.</p></div>
+      <div class="ido"><span class="ora">Péntek</span><b>Heti megbeszélés</b><p>Ami nem fért a 15 percbe, magától a heti napirendre kerül.</p></div>
+    </div>
+
+    <div class="lap-keret">
+      <div class="reggeli-lap">
+        <div class="lap-fej"><b>Reggeli lap</b><span class="mono">csütörtök · 7:30</span><span class="jelveny terv">példa</span></div>
+
+        <div>
+          <div class="blokkcim">Jó hír</div>
+          <div class="lsor" style="--k:var(--k-ajanlat)"><span class="ki">Értékesítés</span><span>Kovács Béla elfogadta a 20 hektáros facélia-ajánlatot.</span></div>
+          <div class="lsor" style="--k:var(--k-labor)"><span class="ki">Labor</span><span>Megjött a körvizsgálat eredménye: megfelelt.</span></div>
+        </div>
+
+        <div>
+          <div class="blokkcim">Számok</div>
+          <div class="szamok">
+            <div class="szamdoboz" style="--k:var(--k-ajanlat)"><span class="ki">Értékesítés</span><b>12</b><span>nyitott ajánlat</span></div>
+            <div class="szamdoboz figyel" style="--k:var(--k-labor)"><span class="ki">Labor</span><b>2</b><span>minta 24 órán túl</span></div>
+            <div class="szamdoboz" style="--k:var(--k-uzem)"><span class="ki">Üzem</span><b>86%</b><span>szárító kihasználtság</span></div>
+            <div class="szamdoboz figyel" style="--k:var(--k-eladas)"><span class="ki">Pénzügy</span><b>3</b><span>vevő 30 napon túl</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="blokkcim">Mai legfontosabb</div>
+          <div class="lsor" style="--k:var(--wheat)"><span class="ki">Ügyvezető</span><span>Euroseeds: a találkozni kívánt cégek listájának lezárása.</span></div>
+          <div class="lsor" style="--k:var(--k-termelo)"><span class="ki">Termelés</span><span>A hetesi tábla szemléje.</span></div>
+          <div class="lsor" style="--k:var(--k-marketing)"><span class="ki">Marketing</span><span>A katalógus anyagának leadása.</span></div>
+        </div>
+
+        <div>
+          <div class="blokkcim">Elakadás — döntést kér</div>
+          <div class="lsor elakad" style="--k:var(--k-uzem)"><span class="ki">Üzem</span><span>A püski szárító két napot áll. Melyik tétel várjon?</span>
+            <div class="dontes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg><span>A durum előbb, a facélia szerdán.</span><span class="chip" style="--k:var(--k-uzem)">felelős: Üzem</span><span class="chip" style="--k:var(--wheat)">szerda</span></div>
+          </div>
+          <div class="lsor elakad" style="--k:var(--k-eladas)"><span class="ki">Pénzügy</span><span>Három vevő 30 napon túl nem fizetett. Ki hívja őket?</span>
+            <div class="dontes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg><span>Az értékesítő hívja, aki az ajánlatot adta.</span><span class="chip" style="--k:var(--k-ajanlat)">felelős: Értékesítés</span><span class="chip" style="--k:var(--wheat)">ma</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lap-oldal">
+        <div class="card"><b>Ami nincs a lapon, az nem napirend</b><p>Így éri meg diktálni: amit valaki nem mondott be, arról reggel nem esik szó.</p></div>
+        <div class="card"><b>Minden döntésnek felelőse van</b><p>A döntés a felelős listájára kerül, határidővel. Péntekig látszik, mi lett belőle.</p><span class="jelveny resz" style="align-self:flex-start">ma hiányzik: a teendőnek nincs felelőse</span></div>
+        <div class="card"><b>Mindenki ugyanazt a gombot nyomja</b><p>A pénzügyes, az üzemvezető és az üzletkötő ugyanúgy diktál. Nincs külön vezetői felület, amit meg kell tanulni.</p></div>
+        <div class="card"><b>Nem új módszer</b><p>A napirend — jó hír, számok, mai legfontosabb, elakadás — a vezetői „daily huddle" bevett gyakorlata. Az új csak az, hogy a lapot nem kézzel rakják össze. <a href="https://www.rhythmsystems.com/blog/bid/148238/the-daily-huddle-a-key-component-in-mastering-the-rockefeller-habits" style="color:var(--dim)">forrás</a></p></div>
+      </div>
+    </div>
+
+    <p class="kiemel">Egy dolog ma hiányzik hozzá: <b>a CRM-ben a teendőnek nincs felelőse.</b> Enélkül a reggeli döntés gazdátlan marad — ezért ez az első lépcsőbe kerül, mindenki más elé.</p>
+  </div>
+</section>
+
+<div class="wrap valaszto"></div>
+
+<!-- ============================================================ LÉPCSŐK -->
+<section id="lepcsok">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="kicker">Hogyan jutunk el oda</div>
+      <h2>Három lépcső — <em>előbb az, ami fáj.</em></h2>
+      <p class="sub">A zöld sáv azt mutatja, mennyi készül a meglévő CRM-ből. Becslés, nem mérés.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card lepcso">
+        <span class="szam">1. LÉPCSŐ</span>
+        <h3>Megszólal — mindenkinek</h3>
+        <ul><li>Minden vezetőnek fiók, a területe szerinti joggal</li><li>Ugyanaz a diktálás és jóváhagyás mindenkinek</li><li>Felelős és határidő a teendőn</li><li>Reggeli lap és tervnaptár</li></ul>
+        <div class="sav"><div class="sav-cim"><span>a meglévőből</span><b>~70%</b></div><div class="sav-test"><i style="--w:70%"></i></div></div>
+      </div>
+      <div class="card lepcso">
+        <span class="szam">2. LÉPCSŐ</span>
+        <h3>Határidők, partnerek, döntések</h3>
+        <ul><li>Vevői, termelői és külföldi szerződések</li><li>Külföldi partnerkeresés a jelölttől a próbáig</li><li>Labor- és pénzügyi határidők</li><li>Döntésnapló a reggeli megbeszélésből</li></ul>
+        <div class="sav"><div class="sav-cim"><span>a meglévőből</span><b>~50%</b></div><div class="sav-test"><i style="--w:50%"></i></div></div>
+      </div>
+      <div class="card lepcso">
+        <span class="szam">3. LÉPCSŐ</span>
+        <h3>A hosszú távú dolgok</h3>
+        <ul><li>Nemesítési programok és saját fajták</li><li>Tétel a tábláról a zsákig</li><li>Termelői hálózat és export-követelmények</li><li>Üzemi kapacitás a három telephelyen</li></ul>
+        <div class="sav"><div class="sav-cim"><span>a meglévőből</span><b>~30%</b></div><div class="sav-test"><i style="--w:30%"></i></div></div>
+      </div>
+    </div>
+
+    <div class="sinek">
+      <div class="sin gyors">
+        <div class="sin-cim">Bevezetés<span class="mono">javaslat</span></div>
+        <div class="lepesek"><span>2 hét próba: ügyvezető + 2 vezető</span><i>→</i><span>Minden vezető, 15 perc betanítás</span><i>→</i><span>Mérés: ki diktált, minden döntésnek van-e gazdája</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:20px">
+  <div class="wrap">
+    <div class="final">
+      <h2>Ez most <em>terv.</em></h2>
+      <p>A CRM és az AI-nak diktálás hat rekesszel ma is fut. Az új rekeszek, a vezetői kör és a reggeli megbeszélés a következő lépés.</p>
+      <div class="cta">
+        <a class="btn btn-p" href="https://balazsfoldhazi.github.io/vetomag-crm-bemutato/">A Vetőmag CRM bemutatója</a>
+        <a class="btn btn-s" href="#ma">Vissza az elejére</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footrow">
+    <span>Élő Adattár · terv a Lajtamag vezetői munkájához</span>
+    <span>2026. szeptember</span>
+  </div>
+  <div class="wrap note">
+    A cetlik, a nevek, a mondatok és a növekvő adattár pontjai szemléltető példák. A képernyőképek a működő CRM-ből
+    készültek, anonimizált demó-adatokkal. A cégre vonatkozó tények (labor, telephelyek, termelői hálózat, nemesítési
+    programok) a Lajtamag cégismertetőjéből, a 2026-os fajtakatalógusból és a lajtamag.hu oldalról származnak. A kongresszusok dátumai a szervezők nyilvános közléséből, a naptár vetésidői a fajtakatalógusból valók; a naptár többi sávja példa. A reggeli megbeszélés napirendje a vezetői „daily huddle” bevett gyakorlatát követi; a reggeli lap sorai és számai példák, a láthatósági táblázat javaslat.
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var csendes = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var gyok = getComputedStyle(document.documentElement);
+  var szin = function (k) { return gyok.getPropertyValue('--k-' + k).trim(); };
+
+  /* ------------------------------------------------ hero: három kis kép */
+  (function () {
+    var NS = 'http://www.w3.org/2000/svg';
+    var r = veletlen(7);
+    var KAT = ['partner', 'ajanlat', 'teendo', 'terep', 'eladas', 'labor', 'uzem', 'termelo', 'nemes'];
+    function el(tag, attr) { var e = document.createElementNS(NS, tag); for (var a in attr) e.setAttribute(a, attr[a]); return e; }
+
+    var m1 = document.getElementById('mini1');
+    for (var i = 0; i < 16; i++) {
+      var x = 8 + r() * 196, y = 8 + r() * 94, w = 30, h = 20, rot = (r() - .5) * 34;
+      m1.appendChild(el('rect', { x: x, y: y, width: w, height: h, rx: 2, fill: '#efe4ca', opacity: (.55 + r() * .45).toFixed(2),
+        transform: 'rotate(' + rot.toFixed(1) + ' ' + (x + w / 2) + ' ' + (y + h / 2) + ')' }));
+    }
+
+    var m2 = document.getElementById('mini2');
+    for (var c = 0; c < 6; c++) {
+      var kat = KAT[c], cx = 12 + c * 37;
+      m2.appendChild(el('rect', { x: cx, y: 10, width: 30, height: 4, rx: 2, fill: c < 5 ? szin(kat) : '#f08a72' }));
+      var n = c < 5 ? 2 + (c % 3) : 0;
+      for (var j = 0; j < n; j++) m2.appendChild(el('rect', { x: cx, y: 22 + j * 22, width: 30, height: 16, rx: 3, fill: 'rgba(251,246,236,.16)' }));
+    }
+    for (var k = 0; k < 5; k++) {
+      var px = 170 + r() * 60, py = 70 + r() * 44;
+      m2.appendChild(el('rect', { x: px - 14, y: py - 9, width: 28, height: 18, rx: 2, fill: '#efe4ca', opacity: .8,
+        transform: 'rotate(' + ((r() - .5) * 30).toFixed(1) + ' ' + px + ' ' + py + ')' }));
+    }
+
+    var m3 = document.getElementById('mini3');
+    var hubok = [[48, 36, 'partner'], [120, 22, 'ajanlat'], [192, 36, 'teendo'], [40, 96, 'terep'], [120, 70, 'eladas'], [196, 98, 'labor'], [140, 116, 'uzem'], [78, 116, 'termelo']];
+    var kapcs = [[0, 1], [1, 2], [0, 4], [3, 0], [4, 5], [4, 6], [7, 4], [5, 6], [7, 6], [2, 4]];
+    kapcs.forEach(function (p) { m3.appendChild(el('line', { x1: hubok[p[0]][0], y1: hubok[p[0]][1], x2: hubok[p[1]][0], y2: hubok[p[1]][1], stroke: 'rgba(251,246,236,.22)', 'stroke-width': 1 })); });
+    hubok.forEach(function (h) {
+      for (var q = 0; q < 6; q++) {
+        var a = r() * Math.PI * 2, d = 9 + r() * 9;
+        m3.appendChild(el('circle', { cx: h[0] + Math.cos(a) * d, cy: h[1] + Math.sin(a) * d, r: 1.6, fill: szin(h[2]), opacity: .75 }));
+      }
+      m3.appendChild(el('circle', { cx: h[0], cy: h[1], r: 5, fill: szin(h[2]) }));
+    });
+  })();
+
+  /* ----------------------------------------------------- a cetli-tábla */
+  (function () {
+    var tabla = document.getElementById('tabla');
+    var reteg = tabla.querySelector('.tabla-kaosz');
+    var rend = tabla.querySelector('.tabla-rend');
+    var cetlik = Array.prototype.slice.call(tabla.querySelectorAll('.cetli'));
+    var gombok = Array.prototype.slice.call(document.querySelectorAll('.allapotok button'));
+    var felirat = document.getElementById('tablaFelirat');
+    var CRM = { partner: 1, ajanlat: 1, teendo: 1, terep: 1, eladas: 1 };
+    var FELIRAT = {
+      ma: '<b>16 cetli, 7 féle helyen.</b> Mindegyik fontos — és egyik sincs ott, ahol keresni fogod.',
+      crm: '<b>7 cetli megtalálta a helyét.</b> A másik 9 — labor, üzem, nemesítés, termelők, külföldi partnerek, marketing — ma is szétszórva van.',
+      cel: '<b>Mind a 16 a helyén.</b> A hiányzó rekeszeket maga a diktálás mutatta meg.'
+    };
+    var most = 'ma';
+
+    function hova(c, allapot) {
+      if (allapot === 'ma') return reteg;
+      var k = c.dataset.kat;
+      if (allapot === 'crm' && !CRM[k]) return rend.querySelector('[data-rovat="nincs"] .rovat-tartalom');
+      return rend.querySelector('[data-rovat="' + k + '"] .rovat-tartalom');
+    }
+
+    function forgas(c, allapot) {
+      if (allapot === 'ma') return c.style.getPropertyValue('--r') || '0deg';
+      if (allapot === 'crm' && !CRM[c.dataset.kat]) return c.style.getPropertyValue('--r') || '0deg';
+      return '0deg';
+    }
+
+    function szamol() {
+      rend.querySelectorAll('.rovat').forEach(function (rv) {
+        var n = rv.querySelectorAll('.cetli').length;
+        rv.querySelector('.db').textContent = n ? n + ' db' : '';
+      });
+    }
+
+    function allit(allapot) {
+      if (allapot === most) return;
+      var elso = cetlik.map(function (c) { var b = c.getBoundingClientRect(); return [b.left + b.width / 2, b.top + b.height / 2]; });
+      var r0 = cetlik.map(function (c) { return forgas(c, most); });
+      var h0 = tabla.offsetHeight;
+
+      tabla.dataset.allapot = allapot;
+      cetlik.forEach(function (c) { hova(c, allapot).appendChild(c); });
+      szamol();
+      gombok.forEach(function (g) { g.setAttribute('aria-pressed', String(g.dataset.allapot === allapot)); });
+      felirat.innerHTML = FELIRAT[allapot];
+      var elozo = most; most = allapot;
+      if (csendes) return;
+
+      var h1 = tabla.offsetHeight;
+      cetlik.forEach(function (c, i) {
+        var b = c.getBoundingClientRect();
+        var dx = elso[i][0] - (b.left + b.width / 2), dy = elso[i][1] - (b.top + b.height / 2);
+        c.style.transition = 'none';
+        c.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(' + r0[i] + ')';
+      });
+      tabla.style.transition = 'none';
+      tabla.style.height = h0 + 'px';
+      void tabla.offsetHeight;
+
+      requestAnimationFrame(function () {
+        tabla.style.transition = 'height .75s cubic-bezier(.2,.8,.2,1)';
+        tabla.style.height = h1 + 'px';
+        cetlik.forEach(function (c, i) {
+          c.style.transition = 'transform .8s cubic-bezier(.2,.8,.2,1) ' + (i * 22) + 'ms, background-color .55s, color .55s, box-shadow .55s, border-color .55s';
+          c.style.transform = '';
+        });
+      });
+      setTimeout(function () {
+        tabla.style.height = ''; tabla.style.transition = '';
+        cetlik.forEach(function (c) { c.style.transition = ''; });
+      }, 1200);
+    }
+
+    gombok.forEach(function (g) { g.addEventListener('click', function () { allit(g.dataset.allapot); }); });
+    felirat.innerHTML = FELIRAT.ma;
+  })();
+
+  /* ---------------------------------------------------- egy mondat útja */
+  (function () {
+    var m = document.getElementById('mondat');
+    var hullam = document.getElementById('hullam');
+    var r = veletlen(3);
+    for (var i = 0; i < 44; i++) {
+      var s = document.createElement('i');
+      var h = 18 + Math.abs(Math.sin(i * .55)) * 60 + r() * 22;
+      s.style.setProperty('--h', Math.min(100, h).toFixed(0) + '%');
+      s.style.setProperty('--d', (-(r() * .9)).toFixed(2) + 's');
+      hullam.appendChild(s);
+    }
+    var pontok = m.querySelectorAll('.lepes-pont');
+    var ido = null;
+    function lepes(n) {
+      m.dataset.lepes = String(n);
+      pontok.forEach(function (p, i) { p.classList.toggle('aktiv', i < n); });
+    }
+    document.getElementById('mondatLejatszas').addEventListener('click', function () {
+      clearInterval(ido);
+      var n = 1; lepes(1);
+      ido = setInterval(function () { n++; lepes(n); if (n >= 4) clearInterval(ido); }, csendes ? 900 : 1500);
+    });
+  })();
+
+  /* ------------------------------------------------ az adattár, ami nő */
+  (function () {
+    var cv = document.getElementById('halo');
+    var ctx = cv.getContext('2d');
+    var doboz = cv.parentElement;
+    var R = veletlen(20260910);
+
+    var HUB = {
+      partner: { nev: 'Partner', x: .22, y: .26, szul: 0 },
+      ajanlat: { nev: 'Ajánlat', x: .50, y: .14, szul: 0 },
+      teendo: { nev: 'Teendő', x: .78, y: .26, szul: 0 },
+      eladas: { nev: 'Eladás', x: .50, y: .44, szul: 0 },
+      terep: { nev: 'Terep', x: .12, y: .54, szul: 0 },
+      termelo: { nev: 'Termelő', x: .32, y: .80, szul: 6 },
+      labor: { nev: 'Labor', x: .87, y: .60, szul: 6 },
+      uzem: { nev: 'Üzem', x: .68, y: .86, szul: 6 },
+      nemes: { nev: 'Nemesítés', x: .12, y: .88, szul: 9 },
+      tetel: { nev: 'Tétel', x: .56, y: .66, szul: 11, osszekoto: true }
+    };
+    var SULY = [['partner', .16], ['ajanlat', .13], ['teendo', .15], ['eladas', .07], ['terep', .06], ['labor', .11], ['uzem', .10], ['termelo', .12], ['nemes', .10]];
+    var ALAPKAPCS = [['partner', 'ajanlat'], ['ajanlat', 'teendo'], ['partner', 'eladas'], ['partner', 'terep'], ['teendo', 'eladas']];
+    var TETELKAPCS = ['termelo', 'labor', 'eladas', 'nemes', 'uzem'];
+    var MASODIK = { termelo: 'labor', labor: 'eladas', eladas: 'termelo', nemes: 'termelo', uzem: 'termelo' };
+
+    function sorsol() { var v = R(), s = 0; for (var i = 0; i < SULY.length; i++) { s += SULY[i][1]; if (v <= s) return SULY[i][0]; } return 'partner'; }
+
+    var rekordok = [];
+    for (var ho = 1; ho <= 12; ho++) {
+      for (var j = 0; j < 16; j++) {
+        var k = sorsol();
+        var szul = (ho - 1) + R() * .98;
+        rekordok.push({
+          k: k, szul: szul, besorol: Math.max(szul, HUB[k].szul),
+          fx: .05 + R() * .9, fy: .07 + R() * .88,
+          a: R() * Math.PI * 2, d: .045 + R() * .085,
+          masik: MASODIK[k] && R() < .3 ? MASODIK[k] : null
+        });
+      }
+    }
+
+    var FAZIS = [
+      { ig: 2, cim: 'Minden mondat megmarad', szoveg: 'A régi rekeszek — partner, ajánlat, teendő — azonnal töltődnek. Ami még nem fér beléjük, szabad szövegként megmarad, nem vész el.', f: '1. hónap' },
+      { ig: 4.6, cim: 'Minták rajzolódnak ki', szoveg: 'A szabad szövegek csoportosulni kezdenek: ugyanarról esik szó újra meg újra — szárító, audit, termelő.', f: '3. hónap' },
+      { ig: 9, cim: 'Új rekesz születik', szoveg: 'A gép javasolja: legyen Labor, Üzem, Termelő rekesz. Jóváhagyod — és a korábbi mondatok is átkerülnek beléjük.', f: '6. hónap' },
+      { ig: 99, cim: 'A rekeszek összekapcsolódnak', szoveg: 'A tétel lesz a közös nevező: a termelő, a labor és a vevő ugyanarra mutat. Egy kérdésre minden év válaszol.', f: '12. hónap' }
+    ];
+
+    var t = 12, w = 0, h = 0, dpr = 1;
+    var elFazis = document.getElementById('haloFazis'), elCim = document.getElementById('haloCim'), elSzoveg = document.getElementById('haloSzoveg');
+    var szMind = document.getElementById('szMind'), szRekesz = document.getElementById('szRekesz'), szSzabad = document.getElementById('szSzabad');
+    var utolsoFazis = -1;
+
+    function meretez() {
+      var cw = doboz.clientWidth;
+      w = cw; h = Math.round(cw < 560 ? cw * 1.05 : Math.min(520, Math.max(360, cw * .62)));
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      cv.style.height = h + 'px';
+      rajzol();
+    }
+
+    function sima(x) { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); }
+    function hubPx(k) { return [HUB[k].x * w, HUB[k].y * h]; }
+
+    function pozicio(rek) {
+      var m = Math.min(w, h);
+      var hp = hubPx(rek.k);
+      var kozel = [hp[0] + Math.cos(rek.a) * rek.d * m, hp[1] + Math.sin(rek.a) * rek.d * m];
+      var szabad = [rek.fx * w, rek.fy * h];
+      if (rek.besorol > rek.szul) {
+        var gyulik = sima((t - rek.szul) / Math.max(.5, rek.besorol - rek.szul)) * .55;
+        var laza = [hp[0] + Math.cos(rek.a) * rek.d * m * 2.4, hp[1] + Math.sin(rek.a) * rek.d * m * 2.4];
+        szabad = [szabad[0] + (laza[0] - szabad[0]) * gyulik, szabad[1] + (laza[1] - szabad[1]) * gyulik];
+      }
+      var at = sima((t - rek.besorol) / .8);
+      return { x: szabad[0] + (kozel[0] - szabad[0]) * at, y: szabad[1] + (kozel[1] - szabad[1]) * at, at: at };
+    }
+
+    function rajzol() {
+      if (!w) return;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      var db = {}, mind = 0, rekeszben = 0, pozok = [];
+      rekordok.forEach(function (rek) {
+        if (t < rek.szul) { pozok.push(null); return; }
+        mind++;
+        var p = pozicio(rek);
+        if (p.at > .5) { rekeszben++; db[rek.k] = (db[rek.k] || 0) + 1; }
+        pozok.push(p);
+      });
+
+      ctx.lineWidth = 1;
+      ALAPKAPCS.forEach(function (par) {
+        var a = hubPx(par[0]), b = hubPx(par[1]);
+        ctx.strokeStyle = 'rgba(251,246,236,.12)';
+        ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+      });
+      var tetelAlfa = sima((t - HUB.tetel.szul) / 1);
+      if (tetelAlfa > 0) {
+        TETELKAPCS.forEach(function (k) {
+          if (t < HUB[k].szul) return;
+          var a = hubPx('tetel'), b = hubPx(k);
+          ctx.strokeStyle = 'rgba(237,163,30,' + (.45 * tetelAlfa).toFixed(3) + ')';
+          ctx.lineWidth = 1.6;
+          ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+        });
+        ctx.lineWidth = 1;
+      }
+
+      rekordok.forEach(function (rek, i) {
+        var p = pozok[i]; if (!p || p.at < .02) return;
+        var hp = hubPx(rek.k);
+        ctx.globalAlpha = .22 * p.at;
+        ctx.strokeStyle = szin(rek.k);
+        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(hp[0], hp[1]); ctx.stroke();
+        if (rek.masik && t >= 9 && t >= HUB[rek.masik].szul) {
+          var mp = hubPx(rek.masik);
+          ctx.globalAlpha = .16 * sima((t - Math.max(9, rek.besorol)) / 1.2);
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mp[0], mp[1]); ctx.stroke();
+        }
+      });
+      ctx.globalAlpha = 1;
+
+      rekordok.forEach(function (rek, i) {
+        var p = pozok[i]; if (!p) return;
+        var megjelen = sima((t - rek.szul) / .35);
+        ctx.globalAlpha = megjelen;
+        ctx.fillStyle = p.at > .5 ? szin(rek.k) : 'rgba(251,246,236,.55)';
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.at > .5 ? 2.4 : 2.1, 0, Math.PI * 2); ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+
+      Object.keys(HUB).forEach(function (k) {
+        var hub = HUB[k];
+        if (t < hub.szul) return;
+        var be = sima((t - hub.szul) / .7);
+        var hp = hubPx(k);
+        var szinK = k === 'tetel' ? '#eda31e' : szin(k);
+        var sugar = (hub.osszekoto ? 9 : 5 + Math.sqrt(db[k] || 0) * 1.5) * be;
+        ctx.globalAlpha = .18 * be;
+        ctx.fillStyle = szinK;
+        ctx.beginPath(); ctx.arc(hp[0], hp[1], sugar * 2.4, 0, Math.PI * 2); ctx.fill();
+        ctx.globalAlpha = be;
+        ctx.beginPath(); ctx.arc(hp[0], hp[1], sugar, 0, Math.PI * 2); ctx.fill();
+
+        var uj = hub.szul > 0 && t - hub.szul < 2;
+        if (uj) {
+          ctx.strokeStyle = '#eda31e'; ctx.lineWidth = 1.5;
+          ctx.globalAlpha = be * (1 - Math.max(0, t - hub.szul - 1));
+          ctx.beginPath(); ctx.arc(hp[0], hp[1], sugar + 7, 0, Math.PI * 2); ctx.stroke();
+          ctx.lineWidth = 1;
+        }
+
+        ctx.globalAlpha = be;
+        ctx.font = '600 ' + (w < 560 ? 11 : 13) + 'px Outfit, system-ui, sans-serif';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+        var ty = hp[1] + sugar + 6;
+        if (ty > h - 18) ty = hp[1] - sugar - 20;
+        ctx.fillStyle = 'rgba(7,26,16,.75)';
+        var tw = ctx.measureText(hub.nev).width;
+        ctx.fillRect(hp[0] - tw / 2 - 5, ty - 2, tw + 10, (w < 560 ? 15 : 18));
+        ctx.fillStyle = '#fbf6ec';
+        ctx.fillText(hub.nev, hp[0], ty);
+        if (uj) {
+          ctx.font = '700 ' + (w < 560 ? 9 : 10) + 'px "JetBrains Mono", monospace';
+          ctx.fillStyle = '#eda31e';
+          ctx.fillText('ÚJ REKESZ', hp[0], ty + (w < 560 ? 15 : 18));
+        }
+      });
+      ctx.globalAlpha = 1;
+
+      szMind.textContent = mind;
+      szRekesz.textContent = rekeszben;
+      szSzabad.textContent = mind - rekeszben;
+
+      var fi = 0; while (t > FAZIS[fi].ig) fi++;
+      if (fi !== utolsoFazis) {
+        utolsoFazis = fi;
+        elFazis.textContent = FAZIS[fi].f;
+        elCim.textContent = FAZIS[fi].cim;
+        elSzoveg.textContent = FAZIS[fi].szoveg;
+      }
+    }
+
+    var anim = null;
+    function menj(cel, idotartam) {
+      cancelAnimationFrame(anim);
+      if (csendes) { t = cel; rajzol(); return; }
+      var tol = t, kezd = null;
+      function kor(ms) {
+        if (kezd === null) kezd = ms;
+        var x = Math.min(1, (ms - kezd) / idotartam);
+        var e = x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+        t = tol + (cel - tol) * e;
+        rajzol();
+        if (x < 1) anim = requestAnimationFrame(kor);
+      }
+      anim = requestAnimationFrame(kor);
+    }
+
+    var hoGombok = Array.prototype.slice.call(document.querySelectorAll('.honapok button'));
+    function jelol(cel) { hoGombok.forEach(function (g) { g.setAttribute('aria-pressed', String(Number(g.dataset.t) === cel)); }); }
+    hoGombok.forEach(function (g) {
+      g.addEventListener('click', function () {
+        var cel = Number(g.dataset.t); jelol(cel);
+        menj(cel, Math.min(2600, 700 + Math.abs(cel - t) * 220));
+      });
+    });
+    document.getElementById('haloLejatszas').addEventListener('click', function () {
+      t = 0; rajzol(); jelol(12);
+      menj(12, 7500);
+    });
+
+    if (window.ResizeObserver) new ResizeObserver(meretez).observe(doboz);
+    else window.addEventListener('resize', meretez);
+    meretez();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(rajzol);
+  })();
+
+  /* ------------------------------ naptár: a mai nap és a visszaszámlálás */
+  (function () {
+    var ma = new Date();
+    var vonal = document.getElementById('maVonal');
+    if (vonal) {
+      var honap = (ma.getFullYear() - 2026) * 12 + (ma.getMonth() - 8);
+      var napok = new Date(ma.getFullYear(), ma.getMonth() + 1, 0).getDate();
+      var p = (honap + (ma.getDate() - 1) / napok) / 12;
+      if (p < 0 || p > 1) vonal.style.display = 'none';
+      else vonal.style.setProperty('--p', p.toFixed(4));
+    }
+    var ejfel = new Date(ma.getFullYear(), ma.getMonth(), ma.getDate());
+    document.querySelectorAll('.hatra[data-datum]').forEach(function (el) {
+      var d = el.dataset.datum.split('-');
+      var cel = new Date(Number(d[0]), Number(d[1]) - 1, Number(d[2]));
+      var nap = Math.round((cel - ejfel) / 86400000);
+      el.textContent = nap > 1 ? 'még ' + nap + ' nap' : (nap === 1 ? 'holnap kezdődik' : (nap === 0 ? 'ma kezdődik' : 'lezajlott'));
+    });
+  })();
+
+  function veletlen(mag) {
+    return function () {
+      mag |= 0; mag = mag + 0x6D2B79F5 | 0;
+      var x = Math.imul(mag ^ mag >>> 15, 1 | mag);
+      x = x + Math.imul(x ^ x >>> 7, 61 | x) ^ x;
+      return ((x ^ x >>> 14) >>> 0) / 4294967296;
+    };
+  }
+})();
+</script>
+
+</body>
+</html>
