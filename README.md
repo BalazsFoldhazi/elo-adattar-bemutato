@@ -41,6 +41,15 @@ Kapcsolódó: [Vetőmag CRM bemutató](https://balazsfoldhazi.github.io/vetomag-
   fajtakatalógusból és a lajtamag.hu oldalról, a kongresszusi dátumok a
   szervezők nyilvános közléséből származnak.
 
+## Telepítés
+
+Az oldal telepíthető alkalmazásként is fut, és telepítés után hálózat nélkül is megnyílik.
+
+- **Android / Chrome:** a fejlécben megjelenő **Telepítés** gombbal, vagy a böngésző menüjéből.
+- **iPhone / Safari:** **Megosztás → Főképernyőhöz adás**.
+
+Új változat kiadásakor a `sw.js`-ben emeld a `VERZIO` számát, hogy a telepített alkalmazás is frissüljön.
+
 ## Helyi megnyitás
 
 Az `index.html` önmagában megnyitható böngészőben. A képek relatív útvonalon

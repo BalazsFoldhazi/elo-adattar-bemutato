@@ -9,7 +9,13 @@
 <meta property="og:description" content="Hogyan lesz a szétszórt cetlikből egy közös adattár, amibe a cég minden vezetője AI-nak diktál. Vizuális bemutató a Lajtamag vezetői rendszerének tervéről.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#071a10">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%BE%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="ikonok/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Élő Adattár">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" type="image/png" href="ikonok/ikon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
@@ -433,6 +439,11 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:rgba(251,246,236,.5
 .lap-oldal .card b{font-size:17px}
 .lap-oldal .card p{font-size:14.5px}
 
+/* ----------------------------------------------------------- telepítés */
+.telepit{padding:9px 18px;font-size:14px;white-space:nowrap}
+.telepit-sugo{background:rgba(237,163,30,.12);border-bottom:1px solid rgba(237,163,30,.3);padding:10px 0;font-size:14px;color:var(--text)}
+.telepit-sugo b{color:var(--wheat)}
+
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -457,8 +468,10 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:rgba(251,246,236,.5
       <a href="#reggel">Reggel</a>
       <a href="#lepcsok">Lépcsők</a>
     </nav>
+    <button type="button" class="btn btn-p telepit" id="telepitGomb" style="display:none">Telepítés</button>
   </div>
 </header>
+<div id="telepitSugo" class="telepit-sugo" style="display:none"><div class="wrap">iPhone-on: koppints a <b>Megosztás</b> gombra, majd a <b>Főképernyőhöz adás</b>-ra.</div></div>
 
 <div class="hero">
   <div class="wrap">
@@ -1460,6 +1473,48 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:rgba(251,246,236,.5
       return ((x ^ x >>> 14) >>> 0) / 4294967296;
     };
   }
+})();
+</script>
+
+<script>
+/* Telepíthető alkalmazás: service worker (hálózat nélkül is megnyílik) és a
+   "Telepítés" gomb. Androidon a böngésző saját telepítő ablaka jön fel;
+   iPhone-on nincs ilyen, ott a gomb megmutatja, hogyan kell a
+   Főképernyőhöz adni. Telepített alkalmazásban a gomb nem jelenik meg. */
+(function () {
+  "use strict";
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+  }
+
+  var gomb = document.getElementById('telepitGomb');
+  var sugo = document.getElementById('telepitSugo');
+  var telepitve = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  if (!gomb || telepitve) return;
+
+  var halasztott = null;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    halasztott = e;
+    gomb.style.display = '';
+  });
+
+  var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (ios) gomb.style.display = '';
+
+  gomb.addEventListener('click', function () {
+    if (halasztott) {
+      halasztott.prompt();
+      halasztott.userChoice.then(function () { halasztott = null; gomb.style.display = 'none'; });
+    } else if (sugo) {
+      sugo.style.display = sugo.style.display === 'none' ? '' : 'none';
+    }
+  });
+
+  window.addEventListener('appinstalled', function () {
+    gomb.style.display = 'none';
+    if (sugo) sugo.style.display = 'none';
+  });
 })();
 </script>
 
